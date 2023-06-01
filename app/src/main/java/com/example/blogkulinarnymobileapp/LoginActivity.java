@@ -1,6 +1,5 @@
 package com.example.blogkulinarnymobileapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -21,7 +20,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private EditText usernameEditText, passwordEditText;
     private Button loginButton;
@@ -45,14 +44,14 @@ public class MainActivity extends AppCompatActivity {
                 String loginOrEmail = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
 
-                new LoginTask(MainActivity.this).execute(loginOrEmail, password);
+                new LoginTask(LoginActivity.this).execute(loginOrEmail, password);
             }
         });
 
         registerTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
@@ -110,14 +109,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             if (result) {
-                Toast.makeText(MainActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent("com.example.blogkulinarnymobileapp.ACTION_LOGIN_SUCCESS");
                 startActivity(intent);
                 finish();
 
             } else {
-                Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
             }
         }
     }

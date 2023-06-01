@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">BlogKulinarnyMobileApp</string>
+    <string name="przepisy">Przepisy</string>
+    <string name="blog_kulinarny">Blog kulinarny</string>
+    <string name="rejestracja">Rejestracja</string>
+    <string name="zaloguj">Zaloguj</string>
+    <string name="title_activity_recipe_list">RecipeListActivity</string>
 </resources>
