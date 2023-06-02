@@ -82,8 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
     private class RegisterTask extends AsyncTask<String, Void, Boolean> {
         private Context context;
 
-        public RegisterTask(Context context) {
-            this.context = context;
+        public RegisterTask(Context context) {this.context = context;
         }
 
         @Override

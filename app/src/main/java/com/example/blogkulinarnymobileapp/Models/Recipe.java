@@ -4,6 +4,9 @@ import java.util.List;
 
 public class Recipe {
 
+    public Recipe() {
+    }
+
     public Recipe(int id, boolean isAccepted, String title, String imageURL, String description, int difficulty, int avgTime, int portions, int userId, User user, List<RecipesCategory> recipesCategories) {
         this.id = id;
         this.isAccepted = isAccepted;

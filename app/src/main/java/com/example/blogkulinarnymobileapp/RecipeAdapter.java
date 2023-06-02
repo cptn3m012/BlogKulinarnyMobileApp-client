@@ -35,12 +35,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         Recipe recipe = recipeList.get(position);
 
         holder.titleTextView.setText(recipe.getTitle());
-        holder.userTextView.setText(String.valueOf(recipe.getUserFromRecipe().getId()));
+        //holder.userTextView.setText(String.valueOf(recipe.getUserFromRecipe().getId()));
         // Ustaw obrazek dla ImageView
         // holder.imageView.setImageResource(...);
 
         // Wygeneruj dynamicznie tagi
-        List<RecipesCategory> tags = recipe.getRecipesCategories();
+        /*List<RecipesCategory> tags = recipe.getRecipesCategories();
         for (RecipesCategory tag : tags) {
             TextView tagTextView = new TextView(holder.itemView.getContext());
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -52,7 +52,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             //tagTextView.setBackgroundResource(R.drawable.tag_background); // Ustaw odpowiedni tło
             tagTextView.setText(tag.getCategory().getName());
             holder.tagsLayout.addView(tagTextView);
-        }
+        }*/
     }
 
     @Override

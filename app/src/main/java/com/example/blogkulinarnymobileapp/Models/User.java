@@ -2,6 +2,9 @@ package com.example.blogkulinarnymobileapp.Models;
 
 public class User {
 
+    public User() {
+    }
+
     public User(int id, String login, String password, String mail, boolean isAccepted, Ranks rank, String imageURL) {
         Id = id;
         this.login = login;
@@ -38,9 +41,7 @@ public class User {
         return login;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
+
 
     public String getPassword() {
         return password;
@@ -104,6 +105,10 @@ public class User {
     //public DateTime VerifiedAt;
 
     public String PasswordResetToken;
+
+    public void setlogin(String login) {
+        this.login = login;
+    }
 
     //public DateTime ResetTokenExpires;
 
