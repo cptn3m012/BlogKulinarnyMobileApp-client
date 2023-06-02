@@ -1,17 +1,21 @@
 package com.example.blogkulinarnymobileapp;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.blogkulinarnymobileapp.Models.Recipe;
-import com.example.blogkulinarnymobileapp.Models.RecipesCategory;
+import com.example.blogkulinarnymobileapp.R;
+import com.squareup.picasso.Picasso;
+
 
 import java.util.List;
 
@@ -36,8 +40,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
         holder.titleTextView.setText(recipe.getTitle());
         //holder.userTextView.setText(String.valueOf(recipe.getUserFromRecipe().getId()));
-        // Ustaw obrazek dla ImageView
-        // holder.imageView.setImageResource(...);
+
+        String imageUrl = recipe.getImageURL();
+        new ImageLoaderTask(holder.imageView).execute(imageUrl);
 
         // Wygeneruj dynamicznie tagi
         /*List<RecipesCategory> tags = recipe.getRecipesCategories();
@@ -71,7 +76,41 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             imageView = itemView.findViewById(R.id.imageView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
             userTextView = itemView.findViewById(R.id.userTextView);
-            tagsLayout = itemView.findViewById(R.id.tagsLayout);
+            tagsLayout = itemView.findViewById(R.id.tagsTextView);
+        }
+    }
+}
+
+class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
+
+    private ImageView imageView;
+
+    public ImageLoaderTask(ImageView imageView) {
+        this.imageView = imageView;
+    }
+
+    @Override
+    protected Bitmap doInBackground(String... params) {
+        String imageUrl = params[0];
+
+        try {
+            // Pobierz dane obrazu z linku
+            String encodedImage = imageUrl.substring(imageUrl.indexOf(",") + 1);
+            byte[] imageBytes = Base64.decode(encodedImage, Base64.DEFAULT);
+
+            // Dekoduj dane obrazu i utwórz obiekt Bitmap
+            return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    protected void onPostExecute(Bitmap bitmap) {
+        if (bitmap != null) {
+            // Wyświetl obraz w ImageView
+            imageView.setImageBitmap(bitmap);
         }
     }
 }
