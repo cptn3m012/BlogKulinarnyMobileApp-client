@@ -22,6 +22,15 @@ import java.util.List;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
     private List<Recipe> recipeList;
+    private OnItemClickListener onItemClickListener; // Dodaj deklarację interfejsu
+
+    public interface OnItemClickListener {
+        void onItemClick(Recipe recipe);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
 
     public RecipeAdapter(List<Recipe> recipeList) {
         this.recipeList = recipeList;
@@ -37,13 +46,22 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Recipe recipe = recipeList.get(position);
-
         holder.titleTextView.setText(recipe.getTitle());
         //holder.userTextView.setText(String.valueOf(recipe.getUserFromRecipe().getId()));
 
         String imageUrl = recipe.getImageURL();
         new ImageLoaderTask(holder.imageView).execute(imageUrl);
 
+        // Add click listener to recipe item layout
+        // Add click listener to recipe item layout
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(recipe);
+                }
+            }
+        });
         // Wygeneruj dynamicznie tagi
         /*List<RecipesCategory> tags = recipe.getRecipesCategories();
         for (RecipesCategory tag : tags) {
@@ -58,6 +76,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             tagTextView.setText(tag.getCategory().getName());
             holder.tagsLayout.addView(tagTextView);
         }*/
+
     }
 
     @Override

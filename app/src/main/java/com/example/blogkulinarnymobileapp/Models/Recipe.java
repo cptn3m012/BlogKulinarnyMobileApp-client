@@ -1,8 +1,25 @@
 package com.example.blogkulinarnymobileapp.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
-public class Recipe {
+public class Recipe implements Parcelable {
+
+    public int id;
+    public boolean isAccepted;
+    public String title;
+    public String imageURL;
+    public String description;
+    public int difficulty;
+    public int avgTime;
+    public int portions;
+    public int userId;
+    public User user;
+    public List<RecipesCategory> recipesCategories;
 
     public Recipe() {
     }
@@ -21,13 +38,29 @@ public class Recipe {
         this.recipesCategories = recipesCategories;
     }
 
-    public int id;
-    public boolean isAccepted;
-    public String title;
-    public String imageURL;
-    public String description;
-    public int difficulty;
-    public int avgTime;
+    protected Recipe(Parcel in) {
+        id = in.readInt();
+        isAccepted = in.readByte() != 0;
+        title = in.readString();
+        imageURL = in.readString();
+        description = in.readString();
+        difficulty = in.readInt();
+        avgTime = in.readInt();
+        portions = in.readInt();
+        userId = in.readInt();
+    }
+
+    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
+        @Override
+        public Recipe createFromParcel(Parcel in) {
+            return new Recipe(in);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -117,6 +150,7 @@ public class Recipe {
         this.recipesCategories = recipesCategories;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Recipe{" +
@@ -126,10 +160,21 @@ public class Recipe {
                 '}';
     }
 
-    public int portions;
-    public int userId;
-    public User user;
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-    //Relationships
-    public List<RecipesCategory> recipesCategories;
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeByte((byte) (isAccepted ? 1 : 0));
+        dest.writeString(title);
+        dest.writeString(imageURL);
+        dest.writeString(description);
+        dest.writeInt(difficulty);
+        dest.writeInt(avgTime);
+        dest.writeInt(portions);
+        dest.writeInt(userId);
+    }
 }

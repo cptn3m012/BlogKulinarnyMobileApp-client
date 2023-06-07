@@ -5,8 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import com.example.blogkulinarnymobileapp.Models.Ranks;
 import com.example.blogkulinarnymobileapp.Models.Recipe;
@@ -49,6 +51,17 @@ public class RecipeListActivity extends AppCompatActivity {
 
         // Utwórz i ustaw adapter
         adapter = new RecipeAdapter(recipeList);
+        adapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Recipe recipe) {
+                // Tworzenie i inicjalizacja intentu dla nowej aktywności
+                Intent intent = new Intent(RecipeListActivity.this, RecipeDetails.class);
+                // Przekazanie danych przepisu do nowej aktywności
+                intent.putExtra("recipe", recipe);
+                // Uruchomienie nowej aktywności
+                startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -133,4 +146,5 @@ public class RecipeListActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
     }
+
 }
