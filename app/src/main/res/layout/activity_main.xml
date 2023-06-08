@@ -50,7 +50,14 @@
     android:paddingTop="16dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
+    android:background="#AAAA7D"
     tools:context=".LoginActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg"
+        android:scaleType="centerCrop"/>
 
     <!-- Panel Logowania -->
     <RelativeLayout

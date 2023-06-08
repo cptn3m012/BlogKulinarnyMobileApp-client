@@ -3,7 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#AAAA7D"
     tools:context=".RecipeDetails">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg"
+        android:orientation="vertical">
 
     <!-- Kafelek Przepisu -->
     <LinearLayout
@@ -13,106 +20,119 @@
         android:padding="10dp"
         android:layout_marginTop="10dp">
 
-        <!-- Tytuł -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Podgląd przepisu"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            android:gravity="center" />
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold|italic"
+                android:fontFamily="cursive"
+                android:textSize="40sp"
+                android:gravity="center"
+                android:layout_marginTop="10dp" />
 
-        <TextView
-            android:id="@+id/titleTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp" />
-
-        <!-- Obraz -->
+            <!-- Obraz -->
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:scaleType="centerCrop" />
 
-        <!-- Trudność -->
-        <TextView
+            <!-- Trudność -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Trudność przepisu:"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/difficultyLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginTop="5dp" />
+
+            <!-- Porcje -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Porcje przepisu"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/portionsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginTop="5dp" />
+
+            <!-- Czas przygotowania -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Czas przygotowania przepisu"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/avgTimeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginTop="5dp" />
+
+            <!-- Opis -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Opis przepisu"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="135dp"
+            android:background="@drawable/card_border"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:shadowColor="@android:color/darker_gray"
+            android:shadowRadius="2">
+
+            <TextView
+                android:id="@+id/descriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:textColor="@color/black" />
+        </ScrollView>
+
+        </LinearLayout>
+
+        <!-- Kafelki kroków -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Trudność przepisu:"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp" />
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/difficultyLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kroki"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp" />
 
-        <!-- Porcje -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Porcje przepisu"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp" />
+            <!-- Dodaj LinearLayout lub RecyclerView, aby dynamicznie wyświetlić kroki -->
+            <!-- Na przykład, możesz użyć RecyclerView z niestandardowym StepAdapter -->
 
-        <TextView
-            android:id="@+id/portionsTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp" />
-
-        <!-- Czas przygotowania -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Czas przygotowania przepisu"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp" />
-
-        <TextView
-            android:id="@+id/avgTimeTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp" />
-
-        <!-- Opis -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Opis przepisu"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp" />
-
-        <TextView
-            android:id="@+id/descriptionTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp" />
-
-    </LinearLayout>
-
-    <!-- Kafelki kroków -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Kroki"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp" />
-
-        <!-- Dodaj LinearLayout lub RecyclerView, aby dynamicznie wyświetlić kroki -->
-        <!-- Na przykład, możesz użyć RecyclerView z niestandardowym StepAdapter -->
-
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

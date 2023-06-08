@@ -2,88 +2,95 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#AAAA7D"
     android:orientation="vertical">
 
-    <!-- Tytuł -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Zarejestruj się"
-        android:textSize="24sp"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:textStyle="bold" />
-
-    <!-- Login -->
-    <EditText
-        android:id="@+id/loginEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Login"
-        android:minHeight="48dp" />
-
-    <!-- Email -->
-    <EditText
-        android:id="@+id/emailEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Adres Email"
-        android:inputType="textEmailAddress"
-        android:minHeight="48dp" />
-
-    <!-- Hasło -->
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Hasło"
-        android:inputType="textPassword"
-        android:minHeight="48dp" />
-
-    <!-- Powtórz hasło -->
-    <EditText
-        android:id="@+id/confirmPasswordEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Powtórz hasło"
-        android:inputType="textPassword"
-        android:minHeight="48dp" />
-
-    <!-- Checkbox - Akceptuj regulamin -->
-    <CheckBox
-        android:id="@+id/acceptTermsCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Akceptuję regulamin" />
-
-    <!-- Komunikat błędu -->
-    <TextView
-        android:id="@+id/errorTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#FF0000" />
-
-    <!-- Przyciski -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/registerButton"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg"
+        android:orientation="vertical">
+        <!-- Tytuł -->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Zarejestruj się" />
+            android:text="Zarejestruj się"
+            android:textSize="24sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/loginTextView"
+        <!-- Login -->
+        <EditText
+            android:id="@+id/loginEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Login"
+            android:minHeight="48dp" />
+
+        <!-- Email -->
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Adres Email"
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp" />
+
+        <!-- Hasło -->
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hasło"
+            android:inputType="textPassword"
+            android:minHeight="48dp" />
+
+        <!-- Powtórz hasło -->
+        <EditText
+            android:id="@+id/confirmPasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Powtórz hasło"
+            android:inputType="textPassword"
+            android:minHeight="48dp" />
+
+        <!-- Checkbox - Akceptuj regulamin -->
+        <CheckBox
+            android:id="@+id/acceptTermsCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Powrót do logowania"
-            android:textStyle="bold"
-            android:layout_marginLeft="16dp" />
+            android:text="Akceptuję regulamin" />
 
+        <!-- Komunikat błędu -->
+        <TextView
+            android:id="@+id/errorTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FF0000" />
+
+        <!-- Przyciski -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/registerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zarejestruj się" />
+
+            <Button
+                android:id="@+id/loginTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Powrót do logowania"
+                android:textStyle="bold"
+                android:layout_marginLeft="16dp" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

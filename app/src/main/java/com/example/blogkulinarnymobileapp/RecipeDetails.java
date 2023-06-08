@@ -3,6 +3,7 @@ package com.example.blogkulinarnymobileapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,13 +32,25 @@ public class RecipeDetails extends AppCompatActivity {
             //Picasso.get().load(recipe.getImageURL()).into(imageView);
 
             TextView difficultyLabel = findViewById(R.id.difficultyLabel);
-            difficultyLabel.setText(String.valueOf(recipe.getDifficulty()));
+            if (recipe.getDifficulty() == 1){
+                difficultyLabel.setText("Łatwy");
+                difficultyLabel.setTextColor(Color.rgb(0, 153, 0));
+            } else if (recipe.getDifficulty() == 2) {
+                difficultyLabel.setText("Średni");
+                difficultyLabel.setTextColor(Color.rgb(255, 255, 0));
+            } else if (recipe.getDifficulty() == 3) {
+                difficultyLabel.setText("Trudny");
+                difficultyLabel.setTextColor(Color.rgb(255, 102, 0));
+            } else {
+                difficultyLabel.setText("Bardzo trudny");
+                difficultyLabel.setTextColor(Color.rgb(255, 0, 0));
+            }
 
             TextView portionsTextView = findViewById(R.id.portionsTextView);
             portionsTextView.setText(String.valueOf(recipe.getPortions()));
 
             TextView avgTimeTextView = findViewById(R.id.avgTimeTextView);
-            avgTimeTextView.setText(String.valueOf(recipe.getAvgTime()));
+            avgTimeTextView.setText(String.valueOf(recipe.getAvgTime()) + "min");
 
             TextView descriptionTextView = findViewById(R.id.descriptionTextView);
             descriptionTextView.setText(recipe.getDescription());
