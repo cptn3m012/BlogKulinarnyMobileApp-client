@@ -50,7 +50,7 @@ public class RecipeListActivity extends AppCompatActivity {
         loadRecipeTask.execute(recipeList);
 
         // Utwórz i ustaw adapter
-        adapter = new RecipeAdapter(recipeList);
+        adapter = new RecipeAdapter(recipeList, RecipeListActivity.this);
         adapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Recipe recipe) {

@@ -1,7 +1,10 @@
 package com.example.blogkulinarnymobileapp;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -15,12 +18,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.blogkulinarnymobileapp.Models.Recipe;
 import com.example.blogkulinarnymobileapp.R;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
-
+    Activity activity;
     private List<Recipe> recipeList;
     private OnItemClickListener onItemClickListener; // Dodaj deklarację interfejsu
 
@@ -32,8 +39,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         this.onItemClickListener = listener;
     }
 
-    public RecipeAdapter(List<Recipe> recipeList) {
+    public RecipeAdapter(List<Recipe> recipeList, Activity activity) {
         this.recipeList = recipeList;
+        this.activity = activity;
     }
 
     @NonNull
@@ -49,8 +57,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         holder.titleTextView.setText(recipe.getTitle());
         //holder.userTextView.setText(String.valueOf(recipe.getUserFromRecipe().getId()));
 
-        String imageUrl = recipe.getImageURL();
-        new ImageLoaderTask(holder.imageView).execute(imageUrl);
+        //String imageUrl = recipe.getImageURL();
+        new ImageLoaderTask(holder.imageView, recipe.getImageURL()).execute(recipe.getImageURL());
+
 
         // Add click listener to recipe item layout
         // Add click listener to recipe item layout
@@ -101,35 +110,30 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 }
 
 class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
-
     private ImageView imageView;
+    private String urlImage;
 
-    public ImageLoaderTask(ImageView imageView) {
+    public ImageLoaderTask(ImageView imageView, String urlImage) {
         this.imageView = imageView;
+        this.urlImage = urlImage;
     }
 
     @Override
     protected Bitmap doInBackground(String... params) {
-        String imageUrl = params[0];
-
         try {
-            // Pobierz dane obrazu z linku
-            String encodedImage = imageUrl.substring(imageUrl.indexOf(",") + 1);
-            byte[] imageBytes = Base64.decode(encodedImage, Base64.DEFAULT);
-
-            // Dekoduj dane obrazu i utwórz obiekt Bitmap
-            return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-        } catch (Exception e) {
+            return Picasso.get()
+                    .load(urlImage)
+                    .get();
+        } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     @Override
-    protected void onPostExecute(Bitmap bitmap) {
-        if (bitmap != null) {
-            // Wyświetl obraz w ImageView
-            imageView.setImageBitmap(bitmap);
+    protected void onPostExecute(Bitmap bitmapResult) {
+        if (bitmapResult != null) {
+            imageView.setImageBitmap(bitmapResult);
         }
     }
 }
