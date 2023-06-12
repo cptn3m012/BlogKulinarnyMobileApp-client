@@ -12,6 +12,7 @@ import android.os.Parcelable;
 
 import com.example.blogkulinarnymobileapp.Models.Ranks;
 import com.example.blogkulinarnymobileapp.Models.Recipe;
+import com.example.blogkulinarnymobileapp.Models.RecipeElements;
 import com.example.blogkulinarnymobileapp.Models.RecipesCategory;
 import com.example.blogkulinarnymobileapp.Models.User;
 
@@ -106,27 +107,18 @@ public class RecipeListActivity extends AppCompatActivity {
                             recipe.setPortions(recipeJson.getInt("portions"));
                             recipe.setUserId(recipeJson.getInt("userId"));
 
-                            // Tworzenie obiektu User
-                            //JSONObject userJson = recipeJson.getJSONObject("user");
-                            //User user = new User();
-                            //user.setId(userJson.getInt("id"));
-                            //user.setlogin(userJson.getString("login"));
-                            // Ustawianie innych właściwości użytkownika
-
-                            //recipe.setUser(user);
-
-                            /* Tworzenie listy RecipesCategory
-                            JSONArray categoriesArray = recipeJson.getJSONArray("recipesCategories");
-                            List<RecipesCategory> categoriesList = new ArrayList<>();
-                            for (int j = 0; j < categoriesArray.length(); j++) {
-                                JSONObject categoryJson = categoriesArray.getJSONObject(j);
-                                RecipesCategory category = new RecipesCategory();
-                                //category.setName(categoryJson.getString("name"));
-                                // Ustawianie innych właściwości kategorii
-
-                                categoriesList.add(category);
-                            }*/
-                            //recipe.setRecipesCategories(categoriesList);
+                            // Parsowanie kroków (stepList)
+                            JSONArray stepsArray = recipeJson.getJSONArray("steps");
+                            List<RecipeElements> stepList = new ArrayList<>();
+                            for (int j = 0; j < stepsArray.length(); j++) {
+                                JSONObject stepJson = stepsArray.getJSONObject(j);
+                                RecipeElements step = new RecipeElements();
+                                step.setImageURL(stepJson.getString("imageURL"));
+                                step.setDescription(stepJson.getString("description"));
+                                step.setNoOfList(stepJson.getInt("noOfList"));
+                                stepList.add(step);
+                            }
+                            recipe.setStepsList(stepList);
 
                             recipeList.add(recipe);
                         }

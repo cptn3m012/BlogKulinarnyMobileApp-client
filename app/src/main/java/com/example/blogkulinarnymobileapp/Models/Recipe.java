@@ -21,10 +21,12 @@ public class Recipe implements Parcelable {
     public User user;
     public List<RecipesCategory> recipesCategories;
 
+    public List<RecipeElements> stepsList;
+
     public Recipe() {
     }
 
-    public Recipe(int id, boolean isAccepted, String title, String imageURL, String description, int difficulty, int avgTime, int portions, int userId, User user, List<RecipesCategory> recipesCategories) {
+    public Recipe(int id, boolean isAccepted, String title, String imageURL, String description, int difficulty, int avgTime, int portions, int userId, User user, List<RecipesCategory> recipesCategories, List<RecipeElements> stepsList) {
         this.id = id;
         this.isAccepted = isAccepted;
         this.title = title;
@@ -36,6 +38,7 @@ public class Recipe implements Parcelable {
         this.userId = userId;
         this.user = user;
         this.recipesCategories = recipesCategories;
+        this.stepsList = stepsList;
     }
 
     protected Recipe(Parcel in) {
@@ -48,7 +51,10 @@ public class Recipe implements Parcelable {
         avgTime = in.readInt();
         portions = in.readInt();
         userId = in.readInt();
+        stepsList = in.createTypedArrayList(RecipeElements.CREATOR);
     }
+
+
 
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
         @Override
@@ -150,6 +156,14 @@ public class Recipe implements Parcelable {
         this.recipesCategories = recipesCategories;
     }
 
+    public List<RecipeElements> getStepsList() {
+        return stepsList;
+    }
+
+    public void setStepsList(List<RecipeElements> stepsList) {
+        this.stepsList = stepsList;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -176,5 +190,6 @@ public class Recipe implements Parcelable {
         dest.writeInt(avgTime);
         dest.writeInt(portions);
         dest.writeInt(userId);
+        dest.writeTypedList(stepsList);
     }
 }

@@ -1,22 +1,33 @@
 package com.example.blogkulinarnymobileapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.blogkulinarnymobileapp.Models.Recipe;
+import com.example.blogkulinarnymobileapp.Models.RecipeElements;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 public class RecipeDetails extends AppCompatActivity {
 
+    private LinearLayout stepsLayout;
+    @SuppressLint("MissingInflatedId")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
+
+        stepsLayout = findViewById(R.id.stepsLayout);
 
         // Odczytanie przekazanych danych przepisu z obiektu Intent
         Intent intent = getIntent();
@@ -27,9 +38,9 @@ public class RecipeDetails extends AppCompatActivity {
             TextView titleTextView = findViewById(R.id.titleTextView);
             titleTextView.setText(recipe.getTitle());
 
-            //ImageView imageView = findViewById(R.id.imageView);
             // Wykorzystaj bibliotekę Picasso lub inny mechanizm do ładowania obrazków
-            //Picasso.get().load(recipe.getImageURL()).into(imageView);
+            ImageView imageView = findViewById(R.id.imageView);
+            Picasso.get().load(recipe.getImageURL()).into(imageView);
 
             TextView difficultyLabel = findViewById(R.id.difficultyLabel);
             if (recipe.getDifficulty() == 1){
@@ -55,16 +66,14 @@ public class RecipeDetails extends AppCompatActivity {
             TextView descriptionTextView = findViewById(R.id.descriptionTextView);
             descriptionTextView.setText(recipe.getDescription());
 
-           /* // Wyświetlanie kroków przepisu
-            LinearLayout stepsLayout = findViewById(R.id.stepsLayout);
-            for (String step : recipe.getSteps()) {
-                TextView stepTextView = new TextView(this);
-                stepTextView.setLayoutParams(new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
-                stepTextView.setText(step);
-                stepsLayout.addView(stepTextView);
-            }*/
+            // Retrieve the steps list from the recipe
+            List<RecipeElements> stepsList = recipe.getStepsList();
+
+            // Set up the RecyclerView for steps
+            RecyclerView stepsRecyclerView = findViewById(R.id.stepsRecyclerView);
+            StepAdapter stepsAdapter = new StepAdapter(stepsList);
+            stepsRecyclerView.setAdapter(stepsAdapter);
+            stepsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
     }
 }

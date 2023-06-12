@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.blogkulinarnymobileapp.Models.Recipe;
+import com.example.blogkulinarnymobileapp.Models.RecipeElements;
 import com.example.blogkulinarnymobileapp.R;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -137,3 +138,7 @@ class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
         }
     }
 }
+
+
+
+

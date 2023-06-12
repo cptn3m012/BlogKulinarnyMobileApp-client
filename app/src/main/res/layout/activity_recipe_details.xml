@@ -1,3 +1,9 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -116,11 +122,13 @@
 
         <!-- Kafelki kroków -->
         <LinearLayout
+            android:id="@+id/stepsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp"
             android:layout_marginTop="10dp">
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -130,9 +138,13 @@
                 android:textSize="20sp"
                 android:layout_marginTop="10dp" />
 
-            <!-- Dodaj LinearLayout lub RecyclerView, aby dynamicznie wyświetlić kroki -->
-            <!-- Na przykład, możesz użyć RecyclerView z niestandardowym StepAdapter -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/stepsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
 
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
+</ScrollView>
