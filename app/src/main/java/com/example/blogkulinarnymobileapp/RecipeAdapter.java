@@ -1,6 +1,7 @@
 package com.example.blogkulinarnymobileapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -109,6 +110,56 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         }
     }
 }
+
+class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
+    private List<RecipeElements> stepList;
+    private Context context;
+
+    public StepAdapter(List<RecipeElements> stepList) {
+        this.stepList = stepList;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
+        View view = LayoutInflater.from(context).inflate(R.layout.item_step, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        RecipeElements step = stepList.get(position);
+
+        holder.bindStep(step);
+    }
+
+    @Override
+    public int getItemCount() {
+        return stepList.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView numOfListTextView;
+        private TextView descriptionTextView;
+        private ImageView imageView;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            numOfListTextView = itemView.findViewById(R.id.numOfListTextView);
+            descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
+            imageView = itemView.findViewById(R.id.imageView);
+        }
+
+        public void bindStep(RecipeElements step) {
+            numOfListTextView.setText(String.valueOf(step.getNoOfList()));
+            descriptionTextView.setText(step.getDescription());
+
+            Picasso.get().load(step.getImageURL()).into(imageView);
+        }
+    }
+}
+
 
 class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
     private ImageView imageView;
