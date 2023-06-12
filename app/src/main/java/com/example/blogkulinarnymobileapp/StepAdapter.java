@@ -35,31 +35,31 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RecipeElements step = stepList.get(position);
 
-        holder.numOfListTextView.setText(String.valueOf(step.getNoOfList()));
-        holder.descriptionTextView.setText(step.getDescription());
-
-        // Load image using Picasso or other image loading library
-        Picasso.get().load(step.getImageURL()).into(holder.imageView);
+        holder.bindStep(step);
     }
 
     @Override
     public int getItemCount() {
-        if (stepList == null) {
-            return 0;
-        }
         return stepList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView numOfListTextView;
-        TextView descriptionTextView;
-        ImageView imageView;
+        private TextView numOfListTextView;
+        private TextView descriptionTextView;
+        private ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             numOfListTextView = itemView.findViewById(R.id.numOfListTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             imageView = itemView.findViewById(R.id.imageView);
+        }
+
+        public void bindStep(RecipeElements step) {
+            numOfListTextView.setText(String.valueOf(step.getNoOfList()));
+            descriptionTextView.setText(step.getDescription());
+
+            Picasso.get().load(step.getImageURL()).into(imageView);
         }
     }
 }

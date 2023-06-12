@@ -22,58 +22,63 @@ import java.util.List;
 public class RecipeDetails extends AppCompatActivity {
 
     private LinearLayout stepsLayout;
-    @SuppressLint("MissingInflatedId")
+    private TextView titleTextView;
+    private ImageView imageView;
+    private TextView difficultyLabel;
+    private TextView portionsTextView;
+    private TextView avgTimeTextView;
+    private TextView descriptionTextView;
+    private RecyclerView stepsRecyclerView;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
 
         stepsLayout = findViewById(R.id.stepsLayout);
+        titleTextView = findViewById(R.id.titleTextView);
+        imageView = findViewById(R.id.imageView);
+        difficultyLabel = findViewById(R.id.difficultyLabel);
+        portionsTextView = findViewById(R.id.portionsTextView);
+        avgTimeTextView = findViewById(R.id.avgTimeTextView);
+        descriptionTextView = findViewById(R.id.descriptionTextView);
+        stepsRecyclerView = findViewById(R.id.stepsRecyclerView);
 
-        // Odczytanie przekazanych danych przepisu z obiektu Intent
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("recipe")) {
             Recipe recipe = intent.getParcelableExtra("recipe");
-
-            // Wyświetlenie informacji o przepisie w odpowiednich widokach
-            TextView titleTextView = findViewById(R.id.titleTextView);
-            titleTextView.setText(recipe.getTitle());
-
-            // Wykorzystaj bibliotekę Picasso lub inny mechanizm do ładowania obrazków
-            ImageView imageView = findViewById(R.id.imageView);
-            Picasso.get().load(recipe.getImageURL()).into(imageView);
-
-            TextView difficultyLabel = findViewById(R.id.difficultyLabel);
-            if (recipe.getDifficulty() == 1){
-                difficultyLabel.setText("Łatwy");
-                difficultyLabel.setTextColor(Color.rgb(0, 153, 0));
-            } else if (recipe.getDifficulty() == 2) {
-                difficultyLabel.setText("Średni");
-                difficultyLabel.setTextColor(Color.rgb(255, 255, 0));
-            } else if (recipe.getDifficulty() == 3) {
-                difficultyLabel.setText("Trudny");
-                difficultyLabel.setTextColor(Color.rgb(255, 102, 0));
-            } else {
-                difficultyLabel.setText("Bardzo trudny");
-                difficultyLabel.setTextColor(Color.rgb(255, 0, 0));
-            }
-
-            TextView portionsTextView = findViewById(R.id.portionsTextView);
-            portionsTextView.setText(String.valueOf(recipe.getPortions()));
-
-            TextView avgTimeTextView = findViewById(R.id.avgTimeTextView);
-            avgTimeTextView.setText(String.valueOf(recipe.getAvgTime()) + "min");
-
-            TextView descriptionTextView = findViewById(R.id.descriptionTextView);
-            descriptionTextView.setText(recipe.getDescription());
-
-            // Retrieve the steps list from the recipe
-            List<RecipeElements> stepsList = recipe.getStepsList();
-
-            // Set up the RecyclerView for steps
-            RecyclerView stepsRecyclerView = findViewById(R.id.stepsRecyclerView);
-            StepAdapter stepsAdapter = new StepAdapter(stepsList);
-            stepsRecyclerView.setAdapter(stepsAdapter);
-            stepsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            displayRecipeDetails(recipe);
+            setupStepsRecyclerView(recipe.getStepsList());
         }
+    }
+
+    private void displayRecipeDetails(Recipe recipe) {
+        titleTextView.setText(recipe.getTitle());
+        Picasso.get().load(recipe.getImageURL()).into(imageView);
+
+        int difficulty = recipe.getDifficulty();
+        if (difficulty == 1) {
+            setDifficultyLabel("Łatwy", Color.rgb(0, 153, 0));
+        } else if (difficulty == 2) {
+            setDifficultyLabel("Średni", Color.rgb(255, 255, 0));
+        } else if (difficulty == 3) {
+            setDifficultyLabel("Trudny", Color.rgb(255, 102, 0));
+        } else {
+            setDifficultyLabel("Bardzo trudny", Color.rgb(255, 0, 0));
+        }
+
+        portionsTextView.setText(String.valueOf(recipe.getPortions()));
+        avgTimeTextView.setText(String.valueOf(recipe.getAvgTime()) + "min");
+        descriptionTextView.setText(recipe.getDescription());
+    }
+
+    private void setDifficultyLabel(String text, int color) {
+        difficultyLabel.setText(text);
+        difficultyLabel.setTextColor(color);
+    }
+
+    private void setupStepsRecyclerView(List<RecipeElements> stepsList) {
+        StepAdapter stepsAdapter = new StepAdapter(stepsList);
+        stepsRecyclerView.setAdapter(stepsAdapter);
+        stepsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 }
