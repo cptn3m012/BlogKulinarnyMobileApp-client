@@ -165,7 +165,6 @@ class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
     }
 }
 
-
 class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
     private ImageView imageView;
     private String urlImage;

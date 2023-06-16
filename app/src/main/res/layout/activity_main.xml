@@ -51,7 +51,9 @@
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
     android:background="#6B6B62"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:name="android.permission.INTERNET"
+    >
 
     <ImageView
         android:layout_width="match_parent"
@@ -114,21 +116,22 @@
         <!-- Checkbox - Zapamiętaj mnie -->
         <CheckBox
             android:id="@+id/rememberMeCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Zapamiętaj mnie"
+            android:layout_width="158dp"
+            android:layout_height="45dp"
             android:layout_below="@id/registerTextView"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:text="Zapamiętaj mnie" />
 
         <!-- Przycisk - Zaloguj się -->
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Zaloguj się"
-            android:textColor="@android:color/white"
             android:layout_below="@id/rememberMeCheckBox"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="8dp"
+            android:text="Zaloguj się"
+            android:textColor="@android:color/white" />
 
     </RelativeLayout>
 </RelativeLayout>

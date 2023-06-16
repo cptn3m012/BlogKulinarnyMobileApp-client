@@ -53,13 +53,11 @@
                     android:textSize="16sp"
                     tools:ignore="HardcodedText" />
 
-                <!-- Tags -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <!-- Replace this section with dynamic generation of tags -->
                     <LinearLayout
                         android:id="@+id/tagsTextView"
                         android:layout_width="wrap_content"
@@ -75,8 +73,6 @@
                             android:textSize="14sp"
                             tools:ignore="HardcodedText" />
                     </LinearLayout>
-
-                    <!-- End of tags -->
 
                 </LinearLayout>
 

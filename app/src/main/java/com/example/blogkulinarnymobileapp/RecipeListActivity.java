@@ -93,35 +93,35 @@ public class RecipeListActivity extends AppCompatActivity {
 
                     // Parsowanie odpowiedzi JSON i tworzenie obiektów Recipe
                     JSONObject responseJson = new JSONObject(response.toString());
-                        JSONArray recipeArray = responseJson.getJSONArray("recipes");
-                        for (int i = 0; i < recipeArray.length(); i++) {
-                            JSONObject recipeJson = recipeArray.getJSONObject(i);
-                            Recipe recipe = new Recipe();
-                            recipe.setId(recipeJson.getInt("id"));
-                            recipe.setAccepted(recipeJson.getBoolean("isAccepted"));
-                            recipe.setTitle(recipeJson.getString("title"));
-                            recipe.setImageURL(recipeJson.getString("imageURL"));
-                            recipe.setDescription(recipeJson.getString("description"));
-                            recipe.setDifficulty(recipeJson.getInt("difficulty"));
-                            recipe.setAvgTime(recipeJson.getInt("avgTime"));
-                            recipe.setPortions(recipeJson.getInt("portions"));
-                            recipe.setUserId(recipeJson.getInt("userId"));
+                    JSONArray recipeArray = responseJson.getJSONArray("recipes");
+                    for (int i = 0; i < recipeArray.length(); i++) {
+                        JSONObject recipeJson = recipeArray.getJSONObject(i);
+                        Recipe recipe = new Recipe();
+                        recipe.setId(recipeJson.getInt("id"));
+                        recipe.setAccepted(recipeJson.getBoolean("isAccepted"));
+                        recipe.setTitle(recipeJson.getString("title"));
+                        recipe.setImageURL(recipeJson.getString("imageURL"));
+                        recipe.setDescription(recipeJson.getString("description"));
+                        recipe.setDifficulty(recipeJson.getInt("difficulty"));
+                        recipe.setAvgTime(recipeJson.getInt("avgTime"));
+                        recipe.setPortions(recipeJson.getInt("portions"));
+                        recipe.setUserId(recipeJson.getInt("userId"));
 
-                            // Parsowanie kroków (stepList)
-                            JSONArray stepsArray = recipeJson.getJSONArray("steps");
-                            List<RecipeElements> stepList = new ArrayList<>();
-                            for (int j = 0; j < stepsArray.length(); j++) {
-                                JSONObject stepJson = stepsArray.getJSONObject(j);
-                                RecipeElements step = new RecipeElements();
-                                step.setImageURL(stepJson.getString("imageURL"));
-                                step.setDescription(stepJson.getString("description"));
-                                step.setNoOfList(stepJson.getInt("noOfList"));
-                                stepList.add(step);
-                            }
-                            recipe.setStepsList(stepList);
-
-                            recipeList.add(recipe);
+                        // Parsowanie kroków (stepList)
+                        JSONArray stepsArray = recipeJson.getJSONArray("steps");
+                        List<RecipeElements> stepList = new ArrayList<>();
+                        for (int j = 0; j < stepsArray.length(); j++) {
+                            JSONObject stepJson = stepsArray.getJSONObject(j);
+                            RecipeElements step = new RecipeElements();
+                            step.setImageURL(stepJson.getString("imageURL"));
+                            step.setDescription(stepJson.getString("description"));
+                            step.setNoOfList(stepJson.getInt("noOfList"));
+                            stepList.add(step);
                         }
+                        recipe.setStepsList(stepList);
+
+                        recipeList.add(recipe);
+                    }
 
                 }
 

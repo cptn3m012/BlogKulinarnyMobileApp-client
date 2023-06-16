@@ -4,8 +4,6 @@
     android:background="#6B6B62"
     android:orientation="vertical">
 
-
-    <!-- Tutaj dodaj RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:background="@drawable/bg"
