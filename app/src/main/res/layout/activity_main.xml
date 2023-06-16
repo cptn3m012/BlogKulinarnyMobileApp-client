@@ -50,7 +50,7 @@
     android:paddingTop="16dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
-    android:background="#AAAA7D"
+    android:background="#6B6B62"
     tools:context=".LoginActivity">
 
     <ImageView

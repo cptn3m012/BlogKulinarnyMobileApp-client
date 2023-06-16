@@ -1,150 +1,212 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#6B6B62"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#AAAA7D"
-    tools:context=".RecipeDetails">
-
-    <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:background="@drawable/bg"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-    <!-- Kafelek Przepisu -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/titleTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold|italic"
-                android:fontFamily="cursive"
-                android:textSize="40sp"
-                android:gravity="center"
-                android:layout_marginTop="10dp" />
-
-            <!-- Obraz -->
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:scaleType="centerCrop" />
-
-            <!-- Trudność -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Trudność przepisu:"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:id="@+id/difficultyLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:layout_marginTop="5dp" />
-
-            <!-- Porcje -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Porcje przepisu"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:id="@+id/portionsTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:layout_marginTop="5dp" />
-
-            <!-- Czas przygotowania -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Czas przygotowania przepisu"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:id="@+id/avgTimeTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:layout_marginTop="5dp" />
-
-            <!-- Opis -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Opis przepisu"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="135dp"
-            android:background="@drawable/card_border"
-            android:orientation="vertical"
-            android:padding="8dp"
-            android:shadowColor="@android:color/darker_gray"
-            android:shadowRadius="2">
-
-            <TextView
-                android:id="@+id/descriptionTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textSize="16sp"
-                android:textColor="@color/black" />
-        </ScrollView>
-
-        </LinearLayout>
-
-        <!-- Kafelki kroków -->
         <LinearLayout
-            android:id="@+id/stepsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp"
-            android:layout_marginTop="10dp">
+            tools:context=".RecipeDetails">
 
-
-            <TextView
+            <!-- Kafelek Przepisu -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Kroki"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/stepsRecyclerView"
+                <TextView
+                    android:id="@+id/titleTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="cursive"
+                    android:gravity="center"
+                    android:textSize="40sp"
+                    android:textStyle="bold|italic" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp">
+                    <!-- Obraz -->
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="35dp"
+                        android:gravity="center"
+                        android:background="@drawable/card_border">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="95dp"
+                            android:layout_height="95dp"
+                            android:scaleType="centerCrop"
+                            android:adjustViewBounds="true"
+                            app:shapeAppearanceOverlay="@style/roundImageView"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="5dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Opis przepisu:"
+                            android:textStyle="bold" />
+
+
+                        <ScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="135dp"
+                            android:background="@drawable/card_border"
+                            android:orientation="vertical"
+                            android:padding="8dp"
+                            android:shadowColor="@android:color/darker_gray"
+                            android:shadowRadius="2">
+
+                            <TextView
+                                android:id="@+id/descriptionTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+                        </ScrollView>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/card_border"
+                    android:paddingStart="10dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/black"
+                        android:text="Trudność przepisu:"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/difficultyLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:textSize="18sp" />
+
+                    <!-- Porcje -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/black"
+                        android:text="Porcje przepisu:"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/portionsTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="5dp"
+                        android:textSize="18sp" />
+
+                    <!-- Czas przygotowania -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/black"
+                        android:text="Czas przygotowania przepisu:"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/avgTimeTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="5dp"
+                        android:textSize="18sp"
+                        android:layout_marginBottom="5dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Kafelek składników
+            <LinearLayout
+                android:id="@+id/ingredientsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:padding="10dp">
 
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Składniki:"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/card_border"
+                    android:padding="5dp">
+                    <TextView
+                        android:id="@+id/ingredientsView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:text="test"/>
+                </LinearLayout>
+
+            </LinearLayout> -->
+            <!-- Kafelki kroków -->
+            <LinearLayout
+                android:id="@+id/stepsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Kroki:"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/stepsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/card_border"/>
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 </LinearLayout>
-</ScrollView>

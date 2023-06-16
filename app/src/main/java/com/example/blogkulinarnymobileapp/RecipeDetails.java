@@ -29,6 +29,7 @@ public class RecipeDetails extends AppCompatActivity {
     private TextView avgTimeTextView;
     private TextView descriptionTextView;
     private RecyclerView stepsRecyclerView;
+    private TextView ingredientsView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +43,7 @@ public class RecipeDetails extends AppCompatActivity {
         avgTimeTextView = findViewById(R.id.avgTimeTextView);
         descriptionTextView = findViewById(R.id.descriptionTextView);
         stepsRecyclerView = findViewById(R.id.stepsRecyclerView);
+        //ingredientsView = findViewById(R.id.ingredientsView);
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("recipe")) {

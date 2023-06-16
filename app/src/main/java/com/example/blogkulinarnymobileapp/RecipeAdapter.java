@@ -152,10 +152,15 @@ class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
         }
 
         public void bindStep(RecipeElements step) {
-            numOfListTextView.setText(String.valueOf(step.getNoOfList()));
-            descriptionTextView.setText(step.getDescription());
+            if (step.getNoOfList() == 0){
+                numOfListTextView.setText("Składniki: ");
+                descriptionTextView.setText(step.getDescription());
+            } else {
+                numOfListTextView.setText(String.valueOf(step.getNoOfList()) + ".");
+                descriptionTextView.setText(step.getDescription());
 
-            Picasso.get().load(step.getImageURL()).into(imageView);
+                Picasso.get().load(step.getImageURL()).into(imageView);
+            }
         }
     }
 }
