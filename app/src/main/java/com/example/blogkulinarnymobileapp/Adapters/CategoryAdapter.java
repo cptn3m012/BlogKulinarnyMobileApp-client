@@ -1,6 +1,8 @@
 package com.example.blogkulinarnymobileapp.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +20,10 @@ import java.util.List;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
     private List<Category> categoryList;
-    private Context context;
     private OnItemClickListener listener;
 
     public CategoryAdapter(List<Category> categoryList, Context context) {
         this.categoryList = categoryList;
-        this.context = context;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -37,26 +37,33 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         return new ViewHolder(view);
     }
 
+
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Category category = categoryList.get(position);
         holder.loginTextView.setText(category.getName());
 
-        holder.lockButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onLockButtonClick(category);
-                }
+        if (category.isAccepted()) {
+            // Kategoria jest odblokowana
+            holder.lockButton.setText("Odblokowane");
+            holder.lockButton.setBackgroundColor(Color.GREEN);
+        } else {
+            // Kategoria jest zablokowana
+            holder.lockButton.setText("Zablokowane");
+            holder.lockButton.setBackgroundColor(Color.RED);
+        }
+
+        holder.deleteButton.setBackgroundColor(Color.RED);
+        holder.lockButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onLockButtonClick(category);
             }
         });
 
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onDeleteButtonClick(category);
-                }
+        holder.deleteButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onDeleteButtonClick(category);
             }
         });
     }
@@ -79,6 +86,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         }
     }
 
+
+    // zarzadzanie przyciskami
     public interface OnItemClickListener {
         void onLockButtonClick(Category category);
 

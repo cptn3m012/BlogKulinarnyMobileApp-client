@@ -62,6 +62,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    public void registerClicked(View view) {
+    }
+
     private class LoginTask extends AsyncTask<String, Void, Boolean> {
         private Context context;
 
