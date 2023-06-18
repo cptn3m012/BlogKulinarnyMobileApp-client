@@ -2,7 +2,7 @@ package com.example.blogkulinarnymobileapp.Models;
 
 public class User {
 
-    public User() {
+    public User(int id, String imageURL, boolean isAccepted, String login, String mail, int rank) {
     }
 
     public User(int id, String login, String password, String mail, boolean isAccepted, Ranks rank, String imageURL) {
@@ -27,7 +27,21 @@ public class User {
 
     public Ranks rank;
 
+    public int getRankInt() {
+        return rankInt;
+    }
+
+    public void setRankInt(int rankInt) {
+        this.rankInt = rankInt;
+    }
+
+    public int rankInt;
+
     public String imageURL;
+
+    public User() {
+
+    }
 
     public int getId() {
         return Id;
@@ -106,7 +120,7 @@ public class User {
 
     public String PasswordResetToken;
 
-    public void setlogin(String login) {
+    public void setLogin(String login) {
         this.login = login;
     }
 

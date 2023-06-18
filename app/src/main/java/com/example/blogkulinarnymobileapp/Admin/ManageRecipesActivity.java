@@ -1,4 +1,4 @@
-package com.example.blogkulinarnymobileapp;
+package com.example.blogkulinarnymobileapp.Admin;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,13 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.widget.Toast;
 
-import com.example.blogkulinarnymobileapp.Models.Ranks;
 import com.example.blogkulinarnymobileapp.Models.Recipe;
 import com.example.blogkulinarnymobileapp.Models.RecipeElements;
-import com.example.blogkulinarnymobileapp.Models.RecipesCategory;
-import com.example.blogkulinarnymobileapp.Models.User;
+import com.example.blogkulinarnymobileapp.R;
+import com.example.blogkulinarnymobileapp.RecipeAdapter;
+import com.example.blogkulinarnymobileapp.RecipeDetails;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,14 +23,12 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class RecipeListActivity extends AppCompatActivity {
+public class ManageRecipesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecipeAdapter adapter;
@@ -47,16 +45,16 @@ public class RecipeListActivity extends AppCompatActivity {
         // Utwórz przykładową listę przepisów
         List<Recipe> recipeList = new ArrayList<>();
 
-        LoadRecipeTask loadRecipeTask = new LoadRecipeTask();
+        ManageRecipesActivity.LoadRecipeTask loadRecipeTask = new ManageRecipesActivity.LoadRecipeTask();
         loadRecipeTask.execute(recipeList);
 
         // Utwórz i ustaw adapter
-        adapter = new RecipeAdapter(recipeList, RecipeListActivity.this);
+        adapter = new RecipeAdapter(recipeList, ManageRecipesActivity.this);
         adapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Recipe recipe) {
                 // Tworzenie i inicjalizacja intentu dla nowej aktywności
-                Intent intent = new Intent(RecipeListActivity.this, RecipeDetails.class);
+                Intent intent = new Intent(ManageRecipesActivity.this, RecipeDetails.class);
                 // Przekazanie danych przepisu do nowej aktywności
                 intent.putExtra("recipe", recipe);
                 // Uruchomienie nowej aktywności
@@ -65,17 +63,17 @@ public class RecipeListActivity extends AppCompatActivity {
 
             @Override
             public void onLockButtonClick(Recipe recipe) {
-
+                Toast.makeText(ManageRecipesActivity.this, "block", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCommentButtonClick(Recipe recipe) {
-
+                Toast.makeText(ManageRecipesActivity.this, "comm", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onDeleteButtonClick(Recipe recipe) {
-
+                Toast.makeText(ManageRecipesActivity.this, "del", Toast.LENGTH_SHORT).show();
             }
         });
         recyclerView.setAdapter(adapter);
@@ -151,5 +149,4 @@ public class RecipeListActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
     }
-
 }

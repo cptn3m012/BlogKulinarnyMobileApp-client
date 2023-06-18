@@ -19,9 +19,9 @@
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/AdminRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="231dp" />
+        android:layout_height="264dp" />
 
     <TextView
         android:id="@+id/userHeaderTextView"
@@ -39,6 +39,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/UserRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="231dp" />
+        android:layout_height="344dp" />
 
 </LinearLayout>

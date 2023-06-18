@@ -1,4 +1,4 @@
-package com.example.blogkulinarnymobileapp;
+package Home;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +12,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.blogkulinarnymobileapp.R;
 
 import java.io.IOException;
 import java.io.OutputStream;

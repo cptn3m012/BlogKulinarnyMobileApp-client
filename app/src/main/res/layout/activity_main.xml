@@ -51,7 +51,7 @@
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
     android:background="#6B6B62"
-    tools:context=".LoginActivity"
+    tools:context="Home.LoginActivity"
     android:name="android.permission.INTERNET"
     >
 

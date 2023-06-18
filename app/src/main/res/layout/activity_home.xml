@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#6B6B62"
-    tools:context=".HomeActivity">
+    tools:context="Home.HomeActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/bg"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:textColor="#000000"/>
 
     <ImageView
         android:id="@+id/imageView2"
@@ -36,7 +37,7 @@
         android:background="@drawable/button_background_orange"
         android:backgroundTint="#E1823A"
         android:text="@string/zaloguj"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/registerBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -49,7 +50,7 @@
         android:layout_marginBottom="32dp"
         android:background="@drawable/button_background_orange"
         android:text="@string/rejestracja"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/recipesListBtn"
         app:layout_constraintEnd_toEndOf="@id/loginBtn"
         app:layout_constraintStart_toStartOf="@id/loginBtn" />
@@ -61,7 +62,7 @@
         android:layout_marginBottom="55dp"
         android:background="@drawable/button_background_orange"
         android:text="@string/przepisy"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/registerBtn"
         app:layout_constraintStart_toStartOf="@id/registerBtn" />
@@ -72,6 +73,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="cursive"
         android:text="@string/blog_kulinarny"
+        android:textColor="#000000"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="48sp"
         android:textStyle="bold|italic"

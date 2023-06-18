@@ -1,4 +1,4 @@
-package com.example.blogkulinarnymobileapp;
+package Home;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.blogkulinarnymobileapp.Admin.AdminActivity;
+import com.example.blogkulinarnymobileapp.R;
+import com.example.blogkulinarnymobileapp.User.UserActivity;
 
 import org.json.JSONObject;
 
@@ -25,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText usernameEditText, passwordEditText;
     private Button loginButton;
     private TextView registerTextView;
+    private int rank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +100,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     String jsonResponse = response.toString();
                     JSONObject jsonObject = new JSONObject(jsonResponse);
-                    boolean success = jsonObject.getBoolean("success");
+                    boolean success = jsonObject.getBoolean("result");
+                    rank  = jsonObject.getInt("user.rank");
                     return success;
                 } else {
                     return false;
@@ -110,6 +116,16 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean result) {
             if (result) {
                 Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+
+                if(rank == 1 || rank ==2){
+                    // Tworzenie i inicjalizacja intentu dla nowej aktywności
+                    Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+                    startActivity(intent);
+                }
+                else if(rank == 0){
+                    Intent intent = new Intent(LoginActivity.this, UserActivity.class);
+                    startActivity(intent);
+                }
 
                 Intent intent = new Intent("com.example.blogkulinarnymobileapp.ACTION_LOGIN_SUCCESS");
                 startActivity(intent);

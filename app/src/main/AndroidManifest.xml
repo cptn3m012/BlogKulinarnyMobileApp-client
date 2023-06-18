@@ -8,17 +8,26 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon_color"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.BlogKulinarnyMobileApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".AdminActivity"
+            android:name=".Admin.ManageRecipesActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".Admin.ManageUsersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Admin.CategoriesActivity"
+            android:exported="false" />
+        <activity
+            android:name="Home.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name="Home.LoginActivity"
             android:exported="true" />
         <activity
             android:name=".RecipeDetails"
@@ -27,13 +36,13 @@
             android:name=".RecipeListActivity"
             android:exported="false" />
         <activity
-            android:name=".UserActivity"
+            android:name=".User.UserActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name="Home.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Admin.AdminActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +50,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

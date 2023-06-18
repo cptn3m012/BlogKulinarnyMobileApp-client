@@ -15,7 +15,6 @@
             android:orientation="vertical"
             tools:context=".RecipeDetails">
 
-            <!-- Kafelek Przepisu -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,22 +27,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:textColor="#000000"
                     android:fontFamily="cursive"
                     android:gravity="center"
                     android:textSize="40sp"
                     android:textStyle="bold|italic" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginBottom="5dp">
-                    <!-- Obraz -->
+
                     <LinearLayout
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginTop="35dp"
                         android:gravity="center"
                         android:background="@drawable/card_border">
+
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/imageView"
                             android:layout_width="95dp"
@@ -51,7 +53,9 @@
                             android:scaleType="centerCrop"
                             android:adjustViewBounds="true"
                             app:shapeAppearanceOverlay="@style/roundImageView"/>
+
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -83,7 +87,9 @@
                                 android:textColor="@color/black"
                                 android:textSize="16sp" />
                         </ScrollView>
+
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -108,13 +114,12 @@
                         android:layout_marginTop="5dp"
                         android:textSize="18sp" />
 
-                    <!-- Porcje -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:textColor="@color/black"
-                        android:text="Porcje przepisu:"
+                        android:text="Ilość porcji:"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -126,7 +131,6 @@
                         android:layout_marginTop="5dp"
                         android:textSize="18sp" />
 
-                    <!-- Czas przygotowania -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -148,7 +152,6 @@
 
             </LinearLayout>
 
-            <!-- Kafelek składników
             <LinearLayout
                 android:id="@+id/ingredientsLayout"
                 android:layout_width="match_parent"
@@ -157,12 +160,12 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Składniki:"
+                    android:textColor="#000000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -171,17 +174,19 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/card_border"
                     android:padding="5dp">
+
                     <TextView
-                        android:id="@+id/ingredientsView"
+                        android:id="@+id/ingredientsTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
                         android:textColor="@color/black"
                         android:text="test"/>
+
                 </LinearLayout>
 
-            </LinearLayout> -->
-            <!-- Kafelki kroków -->
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/stepsLayout"
                 android:layout_width="match_parent"
@@ -190,12 +195,12 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Kroki:"
+                    android:textColor="#000000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -207,6 +212,9 @@
                     android:background="@drawable/card_border"/>
 
             </LinearLayout>
+
         </LinearLayout>
+
     </ScrollView>
+
 </LinearLayout>

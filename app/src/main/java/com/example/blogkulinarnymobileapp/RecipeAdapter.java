@@ -11,6 +11,7 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,10 +32,13 @@ import java.util.concurrent.ExecutionException;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
     Activity activity;
     private List<Recipe> recipeList;
-    private OnItemClickListener onItemClickListener; // Dodaj deklarację interfejsu
+    private OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener {
         void onItemClick(Recipe recipe);
+        void onLockButtonClick(Recipe recipe);
+        void onCommentButtonClick(Recipe recipe);
+        void onDeleteButtonClick(Recipe recipe);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -49,7 +53,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recipe, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recipe_managment, parent, false);
         return new ViewHolder(view);
     }
 
@@ -57,14 +61,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Recipe recipe = recipeList.get(position);
         holder.titleTextView.setText(recipe.getTitle());
-        //holder.userTextView.setText(String.valueOf(recipe.getUserFromRecipe().getId()));
 
-        //String imageUrl = recipe.getImageURL();
         new ImageLoaderTask(holder.imageView, recipe.getImageURL()).execute(recipe.getImageURL());
 
-
-        // Add click listener to recipe item layout
-        // Add click listener to recipe item layout
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,21 +72,39 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 }
             }
         });
-        // Wygeneruj dynamicznie tagi
-        /*List<RecipesCategory> tags = recipe.getRecipesCategories();
-        for (RecipesCategory tag : tags) {
-            TextView tagTextView = new TextView(holder.itemView.getContext());
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            layoutParams.setMargins(0, 0, 8, 0);
-            tagTextView.setLayoutParams(layoutParams);
-            //tagTextView.setBackgroundResource(R.drawable.tag_background); // Ustaw odpowiedni tło
-            tagTextView.setText(tag.getCategory().getName());
-            holder.tagsLayout.addView(tagTextView);
-        }*/
 
+        if (holder.rank == 2) {
+            holder.lockBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onLockButtonClick(recipe);
+                    }
+                }
+            });
+
+            holder.commBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onCommentButtonClick(recipe);
+                    }
+                }
+            });
+
+            holder.delBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onDeleteButtonClick(recipe);
+                    }
+                }
+            });
+        } else {
+            holder.lockBtn.setVisibility(View.GONE);
+            holder.commBtn.setVisibility(View.GONE);
+            holder.delBtn.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -101,12 +118,19 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         TextView userTextView;
         LinearLayout tagsLayout;
 
+        int rank = 2;
+        private Button lockBtn, commBtn, delBtn;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
             userTextView = itemView.findViewById(R.id.userTextView);
             tagsLayout = itemView.findViewById(R.id.tagsTextView);
+
+            lockBtn = itemView.findViewById(R.id.lock_btn);
+            commBtn = itemView.findViewById(R.id.comm_btn);
+            delBtn = itemView.findViewById(R.id.del_btn);
         }
     }
 }
@@ -130,7 +154,6 @@ class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RecipeElements step = stepList.get(position);
-
         holder.bindStep(step);
     }
 
@@ -152,14 +175,12 @@ class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
         }
 
         public void bindStep(RecipeElements step) {
-            if (step.getNoOfList() == 0){
-                numOfListTextView.setText("Składniki: ");
-                descriptionTextView.setText(step.getDescription());
-            } else {
+            if (step.getNoOfList() != 0){
                 numOfListTextView.setText(String.valueOf(step.getNoOfList()) + ".");
                 descriptionTextView.setText(step.getDescription());
-
-                Picasso.get().load(step.getImageURL()).into(imageView);
+                if(step.getNoOfList() != 0){
+                    Picasso.get().load(step.getImageURL()).into(imageView);
+                }
             }
         }
     }

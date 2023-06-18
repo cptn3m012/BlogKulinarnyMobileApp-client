@@ -1,4 +1,4 @@
-package com.example.blogkulinarnymobileapp;
+package com.example.blogkulinarnymobileapp.Adapters;
 
 public class TileData {
     private String title;

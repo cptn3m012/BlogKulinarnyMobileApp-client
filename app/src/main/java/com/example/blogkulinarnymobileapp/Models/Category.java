@@ -2,13 +2,13 @@ package com.example.blogkulinarnymobileapp.Models;
 import java.util.List;
 
 public class Category {
-    public Category(int id, String name, List<RecipesCategory> recipesCategories) {
+    public Category(int id,boolean isAccepted, String name) {
         this.id = id;
+        this.isAccepted = isAccepted;
         this.name = name;
-        this.recipesCategories = recipesCategories;
     }
 
-    public int id;
+    private int id;
 
     public int getId() {
         return id;
@@ -17,6 +17,8 @@ public class Category {
     public void setId(int id) {
         this.id = id;
     }
+
+    private String name;
 
     public void setName(String name) {
         this.name = name;
@@ -34,7 +36,19 @@ public class Category {
         return recipesCategories;
     }
 
-    public String name;
+
+    private boolean isAccepted;
+
+    public boolean isAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        isAccepted = accepted;
+    }
+
     //Relationships
     public List<RecipesCategory> recipesCategories;
+
+
 }

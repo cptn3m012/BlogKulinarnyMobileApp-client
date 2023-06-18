@@ -1,4 +1,4 @@
-package com.example.blogkulinarnymobileapp;
+package com.example.blogkulinarnymobileapp.User;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,6 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.blogkulinarnymobileapp.R;
+import com.example.blogkulinarnymobileapp.Adapters.TileAdapter;
+import com.example.blogkulinarnymobileapp.Adapters.TileData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +35,8 @@ public class UserActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         List<TileData> data = new ArrayList<>();
-        data.add(new TileData("Przepisy", "zarządzaj wszystkimi przepisami"));
-        data.add(new TileData("Użytkownicy", "zarządzaj wszystkimi użytkownikami"));
+        data.add(new TileData("Profil", "Edytuj swój profil"));
+        data.add(new TileData("Przepisy", "zobacz swoje przepisy"));
 
         TileAdapter tileAdapter = new TileAdapter(data);
         recyclerView.setAdapter(tileAdapter);
