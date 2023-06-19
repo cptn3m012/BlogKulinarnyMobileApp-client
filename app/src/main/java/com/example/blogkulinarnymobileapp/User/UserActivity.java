@@ -4,10 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.blogkulinarnymobileapp.Admin.ManageUsersActivity;
 import com.example.blogkulinarnymobileapp.R;
 import com.example.blogkulinarnymobileapp.Adapters.TileAdapter;
 import com.example.blogkulinarnymobileapp.Adapters.TileData;
@@ -43,7 +44,16 @@ public class UserActivity extends AppCompatActivity {
         tileAdapter.setOnItemClickListener(new TileAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Toast.makeText(UserActivity.this, "Test", Toast.LENGTH_SHORT).show();
+                switch (position) {
+                    case 0:
+                        Intent editProfile = new Intent(UserActivity.this, EditUserActivity.class);
+                        startActivity(editProfile);
+                        break;
+                    case 1:
+                        Intent uzytkownicyIntent = new Intent(UserActivity.this, ManageUsersActivity.class);
+                        startActivity(uzytkownicyIntent);
+                        break;
+                }
             }
         });
 
