@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.blogkulinarnymobileapp.Admin.AdminActivity;
 import com.example.blogkulinarnymobileapp.R;
+import com.example.blogkulinarnymobileapp.SessionManagement.SessionManagement;
 import com.example.blogkulinarnymobileapp.User.UserActivity;
 
 import org.json.JSONObject;
@@ -30,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private TextView registerTextView;
     private int rank;
+    private SessionManagement sessionManagement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +121,8 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean result) {
             if (result) {
                 Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-
+                sessionManagement = SessionManagement.getInstance(LoginActivity.this);
+                sessionManagement.saveSession(rank);
                 if(rank == 1 || rank ==2){
                     // Tworzenie i inicjalizacja intentu dla nowej aktywności
                     Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
