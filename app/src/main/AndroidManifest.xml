@@ -15,6 +15,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".User.EditDataActivity"
+            android:exported="false" />
+        <activity
+            android:name=".User.DeleteAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".User.EditUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".User.EditPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".Admin.ManageRecipesActivity"
             android:exported="false" />
         <activity
@@ -24,7 +36,7 @@
             android:name=".Admin.CategoriesActivity"
             android:exported="false" />
         <activity
-            android:name=".Admin.AdminActivity"
+            android:name="Home.HomeActivity"
             android:exported="false" />
         <activity
             android:name="Home.LoginActivity"
@@ -36,13 +48,13 @@
             android:name=".RecipeListActivity"
             android:exported="false" />
         <activity
-            android:name=".User.UserActivity"
+            android:name=".Admin.AdminActivity"
             android:exported="false" />
         <activity
             android:name="Home.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name="Home.HomeActivity"
+            android:name=".User.UserActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
