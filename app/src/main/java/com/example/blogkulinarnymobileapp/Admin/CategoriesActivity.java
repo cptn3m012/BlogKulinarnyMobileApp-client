@@ -9,6 +9,10 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.blogkulinarnymobileapp.Adapters.CategoryAdapter;
 import com.example.blogkulinarnymobileapp.Models.Category;
@@ -17,8 +21,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -31,10 +37,17 @@ public class CategoriesActivity extends AppCompatActivity implements CategoryAda
     private CategoryAdapter adapter;
     private List<Category> categoryList;
 
+    private Button addCatBtn;
+
+    private TextView categoryEditTxt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
+
+        addCatBtn = findViewById(R.id.addCategoryButton);
+        categoryEditTxt = findViewById(R.id.categoryAddText);
 
         recyclerView = findViewById(R.id.recyclerView);
         categoryList = new ArrayList<>();
@@ -46,6 +59,40 @@ public class CategoriesActivity extends AppCompatActivity implements CategoryAda
 
         LoadCategoriesTask loadCategoriesTask = new LoadCategoriesTask();
         loadCategoriesTask.execute();
+
+        addCatBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String categoryName = categoryEditTxt.getText().toString();
+
+                // Sprawdź, czy tekst zawiera tylko litery i spacje
+                if (categoryName.matches("[a-zA-Z ]+")) {
+                    AddCategoryTask addCt = new AddCategoryTask();
+                    addCt.execute(categoryName);
+                    recreate();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Nazwa kategorii może zawierać tylko litery i spacje.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        });
+    }
+
+    @Override
+    public void onLockButtonClick(Category category) {
+
+        category.setAccepted(!category.isAccepted());
+        adapter.notifyDataSetChanged();
+        UpdateCategoryStateTask updst = new UpdateCategoryStateTask();
+        updst.execute(category);
+    }
+
+    @Override
+    public void onDeleteButtonClick(Category category) {
+
+        DeleteCategoryTask dct = new DeleteCategoryTask();
+        dct.execute(category);
+        recreate();
     }
 
     // wczytywanie kategorii
@@ -104,24 +151,8 @@ public class CategoriesActivity extends AppCompatActivity implements CategoryAda
         }
     }
 
-    @Override
-    public void onLockButtonClick(Category category) {
-
-        category.setAccepted(!category.isAccepted());
-        adapter.notifyDataSetChanged();
-        UpdateCategoryStateTask updst = new UpdateCategoryStateTask();
-        updst.execute(category);
-    }
-
-    @Override
-    public void onDeleteButtonClick(Category category) {
-        DeleteCategoryTask dct = new DeleteCategoryTask();
-        dct.execute(category);
-        recreate();
-    }
-
+    //zmianianie stanu kategorii
     private class UpdateCategoryStateTask extends AsyncTask<Category, Void, Void> {
-
         @SuppressLint("WrongThread")
         @Override
         protected Void doInBackground(Category... categories) {
@@ -163,6 +194,7 @@ public class CategoriesActivity extends AppCompatActivity implements CategoryAda
         }
     }
 
+    //usuwanie kategorii
     private class DeleteCategoryTask extends AsyncTask<Category, Void, Void> {
         @Override
         protected Void doInBackground(Category... categories) {
@@ -195,4 +227,51 @@ public class CategoriesActivity extends AppCompatActivity implements CategoryAda
         }
     }
 
+    //dodawnaie kategorii
+    private class AddCategoryTask extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... categoryNames) {
+            String categoryName = categoryNames[0];
+
+            String url = "http://10.0.2.2:5000/addCategory";
+
+            try {
+                URL requestUrl = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setDoOutput(true);
+
+                // Create JSON object with category details
+                JSONObject categoryJson = new JSONObject();
+                categoryJson.put("name", categoryName);
+
+                // Write category JSON to request body
+                OutputStream outputStream = connection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                writer.write(categoryJson.toString());
+                writer.close();
+                outputStream.close();
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    // Category added successfully
+                    Log.d("Add", "Category added successfully");
+
+                    Category category = new Category(false,categoryName);
+                    categoryList.add(category);
+                    adapter.notifyDataSetChanged();
+                }
+
+                connection.disconnect();
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
 }
+

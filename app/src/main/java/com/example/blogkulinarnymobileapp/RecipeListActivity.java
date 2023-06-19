@@ -132,8 +132,11 @@ public class RecipeListActivity extends AppCompatActivity {
                             step.setNoOfList(stepJson.getInt("noOfList"));
                             stepList.add(step);
                         }
-                        recipe.setStepsList(stepList);
-                        recipeList.add(recipe);
+                        if(recipe.isAccepted==true){
+                            recipe.setStepsList(stepList);
+                            recipeList.add(recipe);
+                        }
+
                     }
                 }
                 connection.disconnect();

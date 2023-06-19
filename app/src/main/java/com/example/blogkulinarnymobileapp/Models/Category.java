@@ -8,6 +8,11 @@ public class Category {
         this.name = name;
     }
 
+    public Category(boolean isAccepted, String name) {
+        this.isAccepted = isAccepted;
+        this.name = name;
+    }
+
     private int id;
 
     public int getId() {

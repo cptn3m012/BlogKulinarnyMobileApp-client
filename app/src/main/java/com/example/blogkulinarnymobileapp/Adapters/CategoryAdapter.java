@@ -38,7 +38,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Category category = categoryList.get(position);
@@ -47,14 +46,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         if (category.isAccepted()) {
             // Kategoria jest odblokowana
             holder.lockButton.setText("Odblokowane");
-            holder.lockButton.setBackgroundColor(Color.GREEN);
         } else {
             // Kategoria jest zablokowana
             holder.lockButton.setText("Zablokowane");
-            holder.lockButton.setBackgroundColor(Color.RED);
         }
 
-        holder.deleteButton.setBackgroundColor(Color.RED);
         holder.lockButton.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onLockButtonClick(category);

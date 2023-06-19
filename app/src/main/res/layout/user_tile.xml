@@ -56,17 +56,25 @@
         <Button
             android:id="@+id/lock_btn"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Zatwierdź" />
+            android:text="Zatwierdź"
+            android:padding="8dp"
+            android:stateListAnimator="@null"
+            android:outlineProvider="bounds"
+            android:elevation="0dp"/>
 
 
         <Button
             android:id="@+id/del_btn"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Usuń" />
+            android:text="Usuń"
+            android:padding="8dp"
+            android:stateListAnimator="@null"
+            android:outlineProvider="bounds"
+            android:elevation="0dp"/>
 
     </LinearLayout>
 

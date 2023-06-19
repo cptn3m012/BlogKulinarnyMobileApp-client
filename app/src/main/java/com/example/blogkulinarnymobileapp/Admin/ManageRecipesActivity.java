@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.blogkulinarnymobileapp.Models.Recipe;
@@ -23,6 +24,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -42,38 +44,40 @@ public class ManageRecipesActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
 
-        // Utwórz przykładową listę przepisów
         List<Recipe> recipeList = new ArrayList<>();
 
         ManageRecipesActivity.LoadRecipeTask loadRecipeTask = new ManageRecipesActivity.LoadRecipeTask();
         loadRecipeTask.execute(recipeList);
 
-        // Utwórz i ustaw adapter
+
         adapter = new RecipeAdapter(recipeList, ManageRecipesActivity.this);
         adapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Recipe recipe) {
-                // Tworzenie i inicjalizacja intentu dla nowej aktywności
+
                 Intent intent = new Intent(ManageRecipesActivity.this, RecipeDetails.class);
-                // Przekazanie danych przepisu do nowej aktywności
                 intent.putExtra("recipe", recipe);
-                // Uruchomienie nowej aktywności
                 startActivity(intent);
             }
 
             @Override
             public void onLockButtonClick(Recipe recipe) {
-                Toast.makeText(ManageRecipesActivity.this, "block", Toast.LENGTH_SHORT).show();
+                UpdateRecipeStatusTask urst = new UpdateRecipeStatusTask();
+                urst.execute(recipe);
+                recreate();
+
             }
 
             @Override
             public void onCommentButtonClick(Recipe recipe) {
                 Toast.makeText(ManageRecipesActivity.this, "comm", Toast.LENGTH_SHORT).show();
+                recreate();
             }
 
             @Override
             public void onDeleteButtonClick(Recipe recipe) {
                 Toast.makeText(ManageRecipesActivity.this, "del", Toast.LENGTH_SHORT).show();
+                recreate();
             }
         });
         recyclerView.setAdapter(adapter);
@@ -149,4 +153,45 @@ public class ManageRecipesActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
     }
+
+    private class UpdateRecipeStatusTask extends AsyncTask<Recipe, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Recipe... recipes) {
+            Recipe recipe = recipes[0];
+            String url = "http://10.0.2.2:5000/updateRecipeState";
+
+            try {
+
+                // Tworzenie obiektu JSON z informacją o przepisie i jego zmienionym stanie
+                JSONObject recipeJson = new JSONObject();
+                recipeJson.put("id", recipe.getId());
+                recipeJson.put("isAccepted", !recipe.isAccepted());
+
+                // Wysyłanie żądania HTTP do serwera
+                URL requestUrl = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setDoOutput(true);
+
+                OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+                writer.write(recipeJson.toString());
+                writer.flush();
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    Log.d("Update", "User state updated successfully");
+                }
+
+                connection.disconnect();
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
 }

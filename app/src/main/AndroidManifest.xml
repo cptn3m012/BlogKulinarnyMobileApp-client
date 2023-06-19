@@ -48,13 +48,13 @@
             android:name=".RecipeListActivity"
             android:exported="false" />
         <activity
-            android:name=".Admin.AdminActivity"
+            android:name=".User.UserActivity"
             android:exported="false" />
         <activity
             android:name="Home.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".User.UserActivity"
+            android:name=".Admin.AdminActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

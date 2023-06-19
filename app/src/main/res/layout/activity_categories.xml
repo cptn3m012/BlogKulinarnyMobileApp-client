@@ -4,7 +4,7 @@
     android:background="#6B6B62">
 
     <TextView
-        android:id="@+id/titleTextView"
+        android:id="@+id/addCategoryTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Dodaj kategorię"
@@ -18,12 +18,12 @@
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/titleTextView"
+        android:layout_below="@id/addCategoryTxt"
         android:orientation="horizontal"
         android:padding="16dp">
 
         <EditText
-            android:id="@+id/categoryEditText"
+            android:id="@+id/categoryAddText"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
