@@ -24,7 +24,7 @@
             android:name=".Admin.CategoriesActivity"
             android:exported="false" />
         <activity
-            android:name="Home.HomeActivity"
+            android:name=".Admin.AdminActivity"
             android:exported="false" />
         <activity
             android:name="Home.LoginActivity"
@@ -42,7 +42,7 @@
             android:name="Home.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".Admin.AdminActivity"
+            android:name="Home.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

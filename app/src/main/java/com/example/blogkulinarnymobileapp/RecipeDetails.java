@@ -17,6 +17,7 @@ import com.example.blogkulinarnymobileapp.Models.Recipe;
 import com.example.blogkulinarnymobileapp.Models.RecipeElements;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeDetails extends AppCompatActivity {
@@ -80,7 +81,12 @@ public class RecipeDetails extends AppCompatActivity {
     }
 
     private void setupStepsRecyclerView(List<RecipeElements> stepsList) {
-        StepAdapter stepsAdapter = new StepAdapter(stepsList);
+        List<RecipeElements> stepListNew = new ArrayList<>();
+        for (int i = 1; i < stepsList.size(); i++) {
+            stepListNew.add(stepsList.get(i));
+        }
+
+        StepAdapter stepsAdapter = new StepAdapter(stepListNew);
         ingredientsTextView.setText(stepsList.get(0).description.toString());
         stepsRecyclerView.setAdapter(stepsAdapter);
         stepsRecyclerView.setLayoutManager(new LinearLayoutManager(this));

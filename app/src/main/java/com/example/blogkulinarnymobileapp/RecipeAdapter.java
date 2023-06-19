@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.blogkulinarnymobileapp.Models.Recipe;
 import com.example.blogkulinarnymobileapp.Models.RecipeElements;
 import com.example.blogkulinarnymobileapp.R;
+import com.example.blogkulinarnymobileapp.SessionManagement.SessionManagement;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -33,6 +34,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     Activity activity;
     private List<Recipe> recipeList;
     private OnItemClickListener onItemClickListener;
+    private SessionManagement sessionManagement;
 
     public interface OnItemClickListener {
         void onItemClick(Recipe recipe);
