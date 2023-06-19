@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
             String loginOrEmail = params[0];
             String password = params[1];
 
-            String url = "http://10.0.2.2:5000/login";
+            String url = "http://10.0.2.2:5000/auth/login";
             String jsonInputString = "{\"username_or_email\": \"" + loginOrEmail + "\", \"password\": \"" + password + "\"}";
 
             try {
