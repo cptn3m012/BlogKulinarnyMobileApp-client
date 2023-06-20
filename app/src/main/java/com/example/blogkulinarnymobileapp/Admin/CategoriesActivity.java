@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.example.blogkulinarnymobileapp.Adapters.CategoryAdapter;
 import com.example.blogkulinarnymobileapp.Models.Category;
 import com.example.blogkulinarnymobileapp.R;
+import com.example.blogkulinarnymobileapp.SessionManagement.SessionManagement;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +35,8 @@ import java.util.List;
 
 public class CategoriesActivity extends AppCompatActivity implements CategoryAdapter.OnItemClickListener {
 
+    private SessionManagement sessionManagement;
+    private int rank, id;
     private RecyclerView recyclerView;
     private CategoryAdapter adapter;
     private List<Category> categoryList;
@@ -53,6 +57,10 @@ public class CategoriesActivity extends AppCompatActivity implements CategoryAda
         categoryList = new ArrayList<>();
         adapter = new CategoryAdapter(categoryList, this);
         adapter.setOnItemClickListener(this);
+
+        sessionManagement = SessionManagement.getInstance(CategoriesActivity.this);
+        rank = sessionManagement.getSession();
+        id = sessionManagement.getSessionId();
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

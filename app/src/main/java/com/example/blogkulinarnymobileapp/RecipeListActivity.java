@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.blogkulinarnymobileapp.Models.Ranks;
 import com.example.blogkulinarnymobileapp.Models.Recipe;
@@ -33,7 +35,9 @@ import java.util.List;
 public class RecipeListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    List<Recipe> recipeList;
     private RecipeAdapter adapter;
+    private SearchView searchView;
 
     private Context context;
 
@@ -42,10 +46,25 @@ public class RecipeListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_list);
 
+        searchView = findViewById(R.id.searchBar);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return true;
+            }
+        });
+
         recyclerView = findViewById(R.id.recyclerView);
 
         // Utwórz przykładową listę przepisów
-        List<Recipe> recipeList = new ArrayList<>();
+        recipeList = new ArrayList<>();
 
         LoadRecipeTask loadRecipeTask = new LoadRecipeTask();
         loadRecipeTask.execute(recipeList);
@@ -80,6 +99,22 @@ public class RecipeListActivity extends AppCompatActivity {
         });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void filterList(String text) {
+        List<Recipe> filteredList = new ArrayList<>();
+
+        for (Recipe recipe : recipeList) {
+            if (recipe.getTitle().toLowerCase().contains(text.toLowerCase())) {
+                    filteredList.add(recipe);
+            }
+        }
+
+        if (filteredList.isEmpty()){
+            Toast.makeText(this, "Nie znaleziono danych", Toast.LENGTH_SHORT).show();
+        } else {
+            adapter.setFilteredList(filteredList);
+        }
     }
 
     private class LoadRecipeTask extends AsyncTask<List<Recipe>, Void, List<Recipe>> {

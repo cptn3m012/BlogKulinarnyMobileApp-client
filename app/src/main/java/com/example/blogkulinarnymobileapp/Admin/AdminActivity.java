@@ -11,11 +11,15 @@ import android.widget.TextView;
 import com.example.blogkulinarnymobileapp.R;
 import com.example.blogkulinarnymobileapp.Adapters.TileAdapter;
 import com.example.blogkulinarnymobileapp.Adapters.TileData;
+import com.example.blogkulinarnymobileapp.SessionManagement.SessionManagement;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdminActivity extends AppCompatActivity {
 
+    private SessionManagement sessionManagement;
+    private int rank, id;
     private RecyclerView AdminRecyclerView;
     private RecyclerView UserRecyclerView;
     private TextView adminHeaderTextView;
@@ -30,6 +34,10 @@ public class AdminActivity extends AppCompatActivity {
 
         AdminRecyclerView = findViewById(R.id.AdminRecyclerView);
         UserRecyclerView = findViewById(R.id.UserRecyclerView);
+
+        sessionManagement = SessionManagement.getInstance(AdminActivity.this);
+        rank = sessionManagement.getSession();
+        id = sessionManagement.getSessionId();
 
         //admin
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

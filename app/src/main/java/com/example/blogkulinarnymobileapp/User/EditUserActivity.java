@@ -13,12 +13,15 @@ import android.widget.ImageView;
 
 import com.example.blogkulinarnymobileapp.Adapters.GalleryAdapter;
 import com.example.blogkulinarnymobileapp.R;
+import com.example.blogkulinarnymobileapp.SessionManagement.SessionManagement;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EditUserActivity extends AppCompatActivity implements GalleryAdapter.OnItemClickListener {
 
+    private SessionManagement sessionManagement;
+    private int rank, id;
     private ImageView avatarImageView;
     private GalleryAdapter galleryAdapter;
     private Uri selectedImageUri;
@@ -52,6 +55,10 @@ public class EditUserActivity extends AppCompatActivity implements GalleryAdapte
         avatarList.add(R.drawable.avatar6);
         avatarList.add(R.drawable.avatar8);
         avatarList.add(R.drawable.avatar9);
+
+        sessionManagement = SessionManagement.getInstance(EditUserActivity.this);
+        rank = sessionManagement.getSession();
+        id = sessionManagement.getSessionId();
 
         // Utworzenie i przypisanie adaptera galerii
         galleryAdapter = new GalleryAdapter(this, avatarList, this);

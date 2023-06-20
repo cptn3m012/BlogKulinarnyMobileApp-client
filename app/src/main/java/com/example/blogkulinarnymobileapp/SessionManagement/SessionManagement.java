@@ -11,6 +11,7 @@ public class SessionManagement {
     SharedPreferences.Editor editor;
     String SHARED_PREF_NAME = "session";
     String SESSION_KEY = "session_user";
+    String SESSION_ID_KEY = "session_id";
     private static SessionManagement instance;
 
     public SessionManagement(Context context){
@@ -19,13 +20,19 @@ public class SessionManagement {
     }
 
     //Zapisywanie sesji
-    public void saveSession(int rank){
-        editor.putInt(SESSION_KEY,rank).commit();
+    public void saveSession(int rank, int id){
+        editor.putInt(SESSION_KEY,rank);
+        editor.putInt(SESSION_ID_KEY,id);
+        editor.commit();
     }
 
     //Pobieranie sesji (tego używamy, że sprawdzić czy jest zalogowany admin czy normalny użytkownik)
     public int getSession(){
         return sharedPreferences.getInt(SESSION_KEY, -1);
+    }
+
+    public int getSessionId(){
+        return sharedPreferences.getInt(SESSION_ID_KEY, -1);
     }
 
     //Używanie do wylogowania

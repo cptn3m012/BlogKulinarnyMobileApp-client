@@ -21,6 +21,8 @@ import com.example.blogkulinarnymobileapp.Models.RecipeElements;
 import com.example.blogkulinarnymobileapp.R;
 import com.example.blogkulinarnymobileapp.RecipeAdapter;
 import com.example.blogkulinarnymobileapp.RecipeDetails;
+import com.example.blogkulinarnymobileapp.SessionManagement.SessionManagement;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +37,8 @@ import java.util.List;
 
 public class ManageRecipesActivity extends AppCompatActivity {
 
+    private SessionManagement sessionManagement;
+    private int rank, id;
     private RecyclerView recyclerView;
     private RecipeAdapter adapter;
 
@@ -52,6 +56,9 @@ public class ManageRecipesActivity extends AppCompatActivity {
         ManageRecipesActivity.LoadRecipeTask loadRecipeTask = new ManageRecipesActivity.LoadRecipeTask();
         loadRecipeTask.execute(recipeList);
 
+        sessionManagement = SessionManagement.getInstance(ManageRecipesActivity.this);
+        rank = sessionManagement.getSession();
+        id = sessionManagement.getSessionId();
 
         adapter = new RecipeAdapter(recipeList, ManageRecipesActivity.this);
         adapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {

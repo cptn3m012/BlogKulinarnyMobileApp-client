@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText usernameEditText, passwordEditText;
     private Button loginButton;
     private TextView registerTextView;
-    private int rank;
+    private int rank, id;
     private SessionManagement sessionManagement;
 
     @Override
@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
             String loginOrEmail = params[0];
             String password = params[1];
 
-            String url = "http://10.0.2.2:5000/auth/login";
+            String url = "http://10.0.2.2:5000/login";
             String jsonInputString = "{\"username_or_email\": \"" + loginOrEmail + "\", \"password\": \"" + password + "\"}";
 
             try {
@@ -107,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(jsonResponse);
                     boolean success = jsonObject.getBoolean("result");
                     rank  = jsonObject.getInt("user.rank");
+                    id = jsonObject.getInt("user.id");
                     return success;
                 } else {
                     return false;
@@ -122,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
             if (result) {
                 Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                 sessionManagement = SessionManagement.getInstance(LoginActivity.this);
-                sessionManagement.saveSession(rank);
+                sessionManagement.saveSession(rank, id);
                 if(rank == 1 || rank ==2){
                     // Tworzenie i inicjalizacja intentu dla nowej aktywności
                     Intent intent = new Intent(LoginActivity.this, AdminActivity.class);

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.blogkulinarnymobileapp.Adapters.UserAdapter;
 import com.example.blogkulinarnymobileapp.Models.User;
 import com.example.blogkulinarnymobileapp.R;
+import com.example.blogkulinarnymobileapp.SessionManagement.SessionManagement;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +31,8 @@ import java.util.List;
 
 public class ManageUsersActivity extends AppCompatActivity implements UserAdapter.OnItemClickListener {
 
+    private SessionManagement sessionManagement;
+    private int rank, id;
     private RecyclerView recyclerView;
     private UserAdapter adapter;
 
@@ -40,6 +43,10 @@ public class ManageUsersActivity extends AppCompatActivity implements UserAdapte
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        sessionManagement = SessionManagement.getInstance(ManageUsersActivity.this);
+        rank = sessionManagement.getSession();
+        id = sessionManagement.getSessionId();
 
         // Utwórz przykładową listę użytkowników
         List<User> userList = new ArrayList<>();

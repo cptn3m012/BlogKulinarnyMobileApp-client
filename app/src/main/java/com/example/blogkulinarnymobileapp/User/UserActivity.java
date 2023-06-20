@@ -8,16 +8,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.blogkulinarnymobileapp.Admin.AdminActivity;
 import com.example.blogkulinarnymobileapp.Admin.ManageUsersActivity;
 import com.example.blogkulinarnymobileapp.R;
 import com.example.blogkulinarnymobileapp.Adapters.TileAdapter;
 import com.example.blogkulinarnymobileapp.Adapters.TileData;
+import com.example.blogkulinarnymobileapp.SessionManagement.SessionManagement;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserActivity extends AppCompatActivity {
 
+    private SessionManagement sessionManagement;
+    private int rank, id;
     private RecyclerView recyclerView;
 
     private TextView userHeaderTextView;
@@ -31,6 +35,10 @@ public class UserActivity extends AppCompatActivity {
         userHeaderTextView.setTextColor(getResources().getColor(android.R.color.white)); // Aktualizacja koloru tekstu
 
         recyclerView = findViewById(R.id.recyclerView);
+
+        sessionManagement = SessionManagement.getInstance(UserActivity.this);
+        rank = sessionManagement.getSession();
+        id = sessionManagement.getSessionId();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);

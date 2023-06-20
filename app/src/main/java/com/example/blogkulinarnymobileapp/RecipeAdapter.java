@@ -52,6 +52,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         this.activity = activity;
     }
 
+    public void setFilteredList(List<Recipe> filteredList){
+        this.recipeList = filteredList;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
