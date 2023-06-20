@@ -18,15 +18,21 @@ public class Recipe implements Parcelable {
     public int avgTime;
     public int portions;
     public int userId;
+
     public User user;
     public List<RecipesCategory> recipesCategories;
 
     public List<RecipeElements> stepsList;
 
+    public List<Comments> commentsList;
+
+
     public Recipe() {
     }
 
-    public Recipe(int id, boolean isAccepted, String title, String imageURL, String description, int difficulty, int avgTime, int portions, int userId, User user, List<RecipesCategory> recipesCategories, List<RecipeElements> stepsList) {
+    public Recipe(int id, boolean isAccepted, String title, String imageURL, String description,
+                  int difficulty, int avgTime, int portions, int userId, User user,
+                  List<RecipesCategory> recipesCategories, List<RecipeElements> stepsList, List<Comments> commentsList) {
         this.id = id;
         this.isAccepted = isAccepted;
         this.title = title;
@@ -39,6 +45,7 @@ public class Recipe implements Parcelable {
         this.user = user;
         this.recipesCategories = recipesCategories;
         this.stepsList = stepsList;
+        this.commentsList = commentsList;
     }
 
     protected Recipe(Parcel in) {
@@ -52,6 +59,7 @@ public class Recipe implements Parcelable {
         portions = in.readInt();
         userId = in.readInt();
         stepsList = in.createTypedArrayList(RecipeElements.CREATOR);
+        commentsList = in.createTypedArrayList(Comments.CREATOR);
     }
 
 
@@ -156,6 +164,15 @@ public class Recipe implements Parcelable {
         this.recipesCategories = recipesCategories;
     }
 
+    public List<Comments> getCommentsList() {
+        return commentsList;
+    }
+
+    public void setCommentsList(List<Comments> commentsList) {
+        this.commentsList = commentsList;
+    }
+
+
     public List<RecipeElements> getStepsList() {
         return stepsList;
     }
@@ -191,5 +208,6 @@ public class Recipe implements Parcelable {
         dest.writeInt(portions);
         dest.writeInt(userId);
         dest.writeTypedList(stepsList);
+        dest.writeTypedList(commentsList);
     }
 }

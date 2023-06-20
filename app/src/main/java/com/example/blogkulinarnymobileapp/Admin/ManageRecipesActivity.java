@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.blogkulinarnymobileapp.Models.Category;
+import com.example.blogkulinarnymobileapp.Models.Comments;
 import com.example.blogkulinarnymobileapp.Models.Recipe;
 import com.example.blogkulinarnymobileapp.Models.RecipeElements;
 import com.example.blogkulinarnymobileapp.R;
@@ -135,6 +137,19 @@ public class ManageRecipesActivity extends AppCompatActivity {
                             stepList.add(step);
                         }
                         recipe.setStepsList(stepList);
+
+                        // Parsowanie komentarzy
+                        JSONArray commentsArray = recipeJson.getJSONArray("comments");
+                        List<Comments> commentList = new ArrayList<>();
+                        for (int k = 0; k < commentsArray.length(); k++) {
+                            JSONObject commentJson = commentsArray.getJSONObject(k);
+                            Comments comment = new Comments();
+                            comment.setText(commentJson.getString("text"));
+                            comment.setRate(commentJson.getInt("rate"));
+                            commentList.add(comment);
+                        }
+                        recipe.setCommentsList(commentList);
+
                         recipeList.add(recipe);
                     }
                 }
