@@ -39,7 +39,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public interface OnItemClickListener {
         void onItemClick(Recipe recipe);
         void onLockButtonClick(Recipe recipe);
-        void onCommentButtonClick(Recipe recipe);
+        void onCommentButtonClick(Recipe recipe, Context context);
         void onDeleteButtonClick(Recipe recipe);
     }
 
@@ -63,6 +63,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Recipe recipe = recipeList.get(position);
         holder.titleTextView.setText(recipe.getTitle());
+
+        if(recipe.isAccepted != true){
+            holder.lockBtn.setText("ODBLOKUJ");
+        }
 
         new ImageLoaderTask(holder.imageView, recipe.getImageURL()).execute(recipe.getImageURL());
 
@@ -89,7 +93,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 @Override
                 public void onClick(View v) {
                     if (onItemClickListener != null) {
-                        onItemClickListener.onCommentButtonClick(recipe);
+                        onItemClickListener.onCommentButtonClick(recipe, v.getContext());
                     }
                 }
             });

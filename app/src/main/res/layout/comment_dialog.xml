@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/card_border"
+    android:shadowColor="@android:color/darker_gray"
+    android:shadowRadius="2">
+
+    <EditText
+        android:id="@+id/commentEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorLink="@color/black"
+        android:hint="Dodaj komentarz"
+        android:padding="8dp"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Dodaj"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/button_background_orange"
+        android:backgroundTint="#E1823A"/>
+
+</LinearLayout>

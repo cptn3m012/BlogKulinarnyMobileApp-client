@@ -4,25 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
-
-import com.example.blogkulinarnymobileapp.Models.Category;
 import com.example.blogkulinarnymobileapp.Models.Comments;
 import com.example.blogkulinarnymobileapp.Models.Recipe;
 import com.example.blogkulinarnymobileapp.Models.RecipeElements;
 import com.example.blogkulinarnymobileapp.R;
 import com.example.blogkulinarnymobileapp.RecipeAdapter;
 import com.example.blogkulinarnymobileapp.RecipeDetails;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -71,14 +72,49 @@ public class ManageRecipesActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCommentButtonClick(Recipe recipe) {
-                Toast.makeText(ManageRecipesActivity.this, "comm", Toast.LENGTH_SHORT).show();
-                recreate();
+            public void onCommentButtonClick(Recipe recipe, Context context) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = LayoutInflater.from(context);
+                View dialogView = inflater.inflate(R.layout.comment_dialog, null);
+                builder.setView(dialogView);
+
+                final EditText commentEditText = dialogView.findViewById(R.id.commentEditText);
+                Button addButton = dialogView.findViewById(R.id.addButton);
+
+                AlertDialog dialog = builder.create();
+
+                addButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Comments comm = new Comments();
+                        comm.setRecipeId(recipe.getId());
+
+
+                        //TUTAJTRZEBA DAC ID SESJI TYLKO DLA ADMINA
+                        //TUTAJTRZEBA DAC ID SESJI TYLKO DLA ADMINA
+                        //TUTAJTRZEBA DAC ID SESJI TYLKO DLA ADMINA
+                        //TUTAJTRZEBA DAC ID SESJI TYLKO DLA ADMINA
+                        //TUTAJTRZEBA DAC ID SESJI TYLKO DLA ADMINA
+                        comm.setUserId(9);
+
+
+                        comm.setText(commentEditText.getText().toString());
+
+                        onCommentAdded(comm);
+                        dialog.dismiss();
+                        Toast.makeText(ManageRecipesActivity.this, "Pomyślnie" +
+                                "dodano komentarz", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                dialog.show();
             }
 
             @Override
             public void onDeleteButtonClick(Recipe recipe) {
-                Toast.makeText(ManageRecipesActivity.this, "del", Toast.LENGTH_SHORT).show();
+                DeleteRecipeTask dct = new DeleteRecipeTask();
+                dct.execute(recipe.getId());
                 recreate();
             }
         });
@@ -169,6 +205,7 @@ public class ManageRecipesActivity extends AppCompatActivity {
         }
     }
 
+
     private class UpdateRecipeStatusTask extends AsyncTask<Recipe, Void, Void> {
 
         @Override
@@ -201,6 +238,89 @@ public class ManageRecipesActivity extends AppCompatActivity {
 
                 connection.disconnect();
 
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+
+    // dodawanie komentarzy
+    public void onCommentAdded(Comments comment) {
+
+        AddCommentTask act = new AddCommentTask();
+        act.execute(comment);
+    }
+
+    private class AddCommentTask extends AsyncTask<Comments, Void, Void> {
+        @Override
+        protected Void doInBackground(Comments... comments) {
+            Comments comment = comments[0];
+            String url = "http://10.0.2.2:5000/addCommAdmin";
+
+            try {
+                // Tworzenie obiektu JSON z informacją o komentarzu
+                JSONObject commentJson = new JSONObject();
+                commentJson.put("text", comment.getText());
+                commentJson.put("rate", 0);
+                commentJson.put("recipe_id", comment.getRecipeId());
+                commentJson.put("user_id", comment.getUserId());
+                commentJson.put("isB", true);
+
+                // Wysyłanie żądania HTTP do serwera
+                URL requestUrl = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setDoOutput(true);
+
+                OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+                writer.write(commentJson.toString());
+                writer.flush();
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    Log.d("AddComment", "Comment added successfully");
+                }
+
+                connection.disconnect();
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private class DeleteRecipeTask extends AsyncTask<Integer, Void, Void> {
+        @Override
+        protected Void doInBackground(Integer... recipeIds) {
+            int recipeId = recipeIds[0];
+            String url = "http://10.0.2.2:5000/delRecipeAdmin";
+
+            try {
+                // Tworzenie obiektu JSON z identyfikatorem komentarza
+                JSONObject commentIdJson = new JSONObject();
+                commentIdJson.put("recipe_id", recipeId);
+
+                // Wysyłanie żądania HTTP do serwera
+                URL requestUrl = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setDoOutput(true);
+
+                OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+                writer.write(commentIdJson.toString());
+                writer.flush();
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    Log.d("DeleteRecipe", "Comment deleted successfully");
+                }
+
+                connection.disconnect();
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }

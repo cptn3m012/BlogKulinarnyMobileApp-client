@@ -69,7 +69,7 @@ public class RecipeListActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCommentButtonClick(Recipe recipe) {
+            public void onCommentButtonClick(Recipe recipe, Context context) {
 
             }
 

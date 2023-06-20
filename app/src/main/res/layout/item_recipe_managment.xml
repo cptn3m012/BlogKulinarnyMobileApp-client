@@ -100,23 +100,32 @@
 
         <Button
             android:id="@+id/lock_btn"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_weight="1"
+            android:padding="2dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/button_background_orange"
             android:text="Zablokuj" />
 
         <Button
             android:id="@+id/comm_btn"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_weight="1"
+            android:padding="3dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/button_background_orange"
             android:text="Dodaj Komentarz" />
 
         <Button
             android:id="@+id/del_btn"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
             android:layout_weight="1"
+            android:padding="3dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/button_background_orange"
             android:text="Usun" />
 
     </LinearLayout>
