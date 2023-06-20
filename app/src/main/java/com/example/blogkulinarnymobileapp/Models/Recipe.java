@@ -9,6 +9,32 @@ import java.util.List;
 
 public class Recipe implements Parcelable {
 
+    protected Recipe(Parcel in) {
+        id = in.readInt();
+        isAccepted = in.readByte() != 0;
+        title = in.readString();
+        imageURL = in.readString();
+        description = in.readString();
+        difficulty = in.readInt();
+        avgTime = in.readInt();
+        portions = in.readInt();
+        userId = in.readInt();
+        stepsList = in.createTypedArrayList(RecipeElements.CREATOR);
+    }
+
+
+    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
+        @Override
+        public Recipe createFromParcel(Parcel in) {
+            return new Recipe(in);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
+
     public int id;
     public boolean isAccepted;
     public String title;
@@ -18,10 +44,24 @@ public class Recipe implements Parcelable {
     public int avgTime;
     public int portions;
     public int userId;
+
     public User user;
     public List<RecipesCategory> recipesCategories;
-
     public List<RecipeElements> stepsList;
+
+    public User getUser() {
+        return user;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Comment> comments;
 
     public Recipe() {
     }
@@ -40,33 +80,6 @@ public class Recipe implements Parcelable {
         this.recipesCategories = recipesCategories;
         this.stepsList = stepsList;
     }
-
-    protected Recipe(Parcel in) {
-        id = in.readInt();
-        isAccepted = in.readByte() != 0;
-        title = in.readString();
-        imageURL = in.readString();
-        description = in.readString();
-        difficulty = in.readInt();
-        avgTime = in.readInt();
-        portions = in.readInt();
-        userId = in.readInt();
-        stepsList = in.createTypedArrayList(RecipeElements.CREATOR);
-    }
-
-
-
-    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
-        @Override
-        public Recipe createFromParcel(Parcel in) {
-            return new Recipe(in);
-        }
-
-        @Override
-        public Recipe[] newArray(int size) {
-            return new Recipe[size];
-        }
-    };
 
     public int getId() {
         return id;

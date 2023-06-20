@@ -13,6 +13,10 @@ public class Category {
         this.name = name;
     }
 
+    public Category(){
+
+    }
+
     private int id;
 
     public int getId() {
@@ -29,18 +33,9 @@ public class Category {
         this.name = name;
     }
 
-    public void setRecipesCategories(List<RecipesCategory> recipesCategories) {
-        this.recipesCategories = recipesCategories;
-    }
-
     public String getName() {
         return name;
     }
-
-    public List<RecipesCategory> getRecipesCategories() {
-        return recipesCategories;
-    }
-
 
     private boolean isAccepted;
 
@@ -54,6 +49,14 @@ public class Category {
 
     //Relationships
     public List<RecipesCategory> recipesCategories;
+
+    public List<RecipesCategory> getRecipesCategories() {
+        return recipesCategories;
+    }
+
+    public void setRecipesCategories(List<RecipesCategory> recipesCategories) {
+        this.recipesCategories = recipesCategories;
+    }
 
 
 }
