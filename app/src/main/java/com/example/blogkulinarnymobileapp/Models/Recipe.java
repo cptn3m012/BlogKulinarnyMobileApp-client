@@ -23,6 +23,8 @@ public class Recipe implements Parcelable {
 
     public List<RecipeElements> stepsList;
 
+    public List<Comment> commentsList;
+
     public Recipe() {
     }
 
@@ -191,5 +193,14 @@ public class Recipe implements Parcelable {
         dest.writeInt(portions);
         dest.writeInt(userId);
         dest.writeTypedList(stepsList);
+    }
+
+
+    public List<Comment> getCommentsList() {
+        return commentsList;
+    }
+
+    public void setCommentsList(List<Comment> commentsList) {
+        this.commentsList = commentsList;
     }
 }
