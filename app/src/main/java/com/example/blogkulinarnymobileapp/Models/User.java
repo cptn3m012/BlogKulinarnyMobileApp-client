@@ -27,8 +27,6 @@ public class User {
 
     public Ranks rank;
 
-    public String imageURL;
-
     public int getRankInt() {
         return rankInt;
     }
@@ -38,6 +36,8 @@ public class User {
     }
 
     public int rankInt;
+
+    public String imageURL;
 
     public User() {
 
@@ -54,6 +54,8 @@ public class User {
     public String getLogin() {
         return login;
     }
+
+
 
     public String getPassword() {
         return password;
@@ -95,8 +97,34 @@ public class User {
         this.imageURL = imageURL;
     }
 
+    public String getVerificationToken() {
+        return VerificationToken;
+    }
+
+    public void setVerificationToken(String verificationToken) {
+        VerificationToken = verificationToken;
+    }
+
+    public String getPasswordResetToken() {
+        return PasswordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        PasswordResetToken = passwordResetToken;
+    }
+
+    // mailer
+    public String VerificationToken;
+
+    //public DateTime VerifiedAt;
+
+    public String PasswordResetToken;
+
     public void setLogin(String login) {
         this.login = login;
     }
 
+    //public DateTime ResetTokenExpires;
+
+    //Relationships
 }
