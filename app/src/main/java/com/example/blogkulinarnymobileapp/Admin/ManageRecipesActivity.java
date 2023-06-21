@@ -60,7 +60,7 @@ public class ManageRecipesActivity extends AppCompatActivity {
         rank = sessionManagement.getSession();
         id = sessionManagement.getSessionId();
 
-        adapter = new RecipeAdapter(recipeList, ManageRecipesActivity.this);
+        adapter = new RecipeAdapter(recipeList, ManageRecipesActivity.this, getApplicationContext());
         adapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Recipe recipe) {

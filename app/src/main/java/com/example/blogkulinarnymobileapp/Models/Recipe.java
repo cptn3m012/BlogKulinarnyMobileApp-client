@@ -22,6 +22,7 @@ public class Recipe implements Parcelable {
     public List<RecipesCategory> recipesCategories;
 
     public List<RecipeElements> stepsList;
+    public List<String> recipeStringCategories;
 
 
     public List<Comments> commentsList;
@@ -30,7 +31,7 @@ public class Recipe implements Parcelable {
     }
 
     public Recipe(int id, boolean isAccepted, String title, String imageURL, String description,
-                  int difficulty, int avgTime, int portions, int userId, User user,
+                  int difficulty, int avgTime, int portions, int userId, User user, List<String> recipeStringCategories,
                   List<RecipesCategory> recipesCategories, List<RecipeElements> stepsList, List<Comments> commentsList) {
         this.id = id;
         this.isAccepted = isAccepted;
@@ -45,6 +46,8 @@ public class Recipe implements Parcelable {
         this.recipesCategories = recipesCategories;
         this.stepsList = stepsList;
         this.commentsList = commentsList;
+        this.recipeStringCategories = recipeStringCategories;
+
     }
 
     protected Recipe(Parcel in) {
@@ -167,6 +170,14 @@ public class Recipe implements Parcelable {
 
     public void setStepsList(List<RecipeElements> stepsList) {
         this.stepsList = stepsList;
+    }
+
+    public List<String> getRecipeStringCategories() {
+        return recipeStringCategories;
+    }
+
+    public void setRecipeStringCategories(List<String> recipeStringCategories) {
+        this.recipeStringCategories = recipeStringCategories;
     }
 
     @NonNull

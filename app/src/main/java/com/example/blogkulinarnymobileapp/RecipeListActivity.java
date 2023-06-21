@@ -70,7 +70,7 @@ public class RecipeListActivity extends AppCompatActivity {
         loadRecipeTask.execute(recipeList);
 
         // Utwórz i ustaw adapter
-        adapter = new RecipeAdapter(recipeList, RecipeListActivity.this);
+        adapter = new RecipeAdapter(recipeList, RecipeListActivity.this, getApplicationContext());
         adapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Recipe recipe) {
@@ -156,6 +156,12 @@ public class RecipeListActivity extends AppCompatActivity {
                         recipe.setPortions(recipeJson.getInt("portions"));
                         recipe.setUserId(recipeJson.getInt("userId"));
 
+                        JSONArray categoryArray = recipeJson.getJSONArray("categories");
+                        List<String> categoryList = new ArrayList<>();
+                        for (int k = 0; k < categoryArray.length(); k++){
+                            categoryList.add(categoryArray.getString(k));
+                        }
+
                         // Parsowanie kroków (stepList)
                         JSONArray stepsArray = recipeJson.getJSONArray("steps");
                         List<RecipeElements> stepList = new ArrayList<>();
@@ -168,6 +174,7 @@ public class RecipeListActivity extends AppCompatActivity {
                             stepList.add(step);
                         }
                         if(recipe.isAccepted==true){
+                            recipe.setRecipeStringCategories(categoryList);
                             recipe.setStepsList(stepList);
                             recipeList.add(recipe);
                         }

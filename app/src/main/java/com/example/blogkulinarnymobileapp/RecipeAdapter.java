@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -32,6 +33,7 @@ import java.util.concurrent.ExecutionException;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
     Activity activity;
+    Context context;
     private List<Recipe> recipeList;
     private OnItemClickListener onItemClickListener;
     private SessionManagement sessionManagement;
@@ -47,9 +49,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         this.onItemClickListener = listener;
     }
 
-    public RecipeAdapter(List<Recipe> recipeList, Activity activity) {
+    public RecipeAdapter(List<Recipe> recipeList, Activity activity, Context context) {
         this.recipeList = recipeList;
         this.activity = activity;
+        this.context = context;
     }
 
     public void setFilteredList(List<Recipe> filteredList){
@@ -68,6 +71,28 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Recipe recipe = recipeList.get(position);
         holder.titleTextView.setText(recipe.getTitle());
+
+        List<String> listCategory = recipe.getRecipeStringCategories();
+
+        for (String text : listCategory) {
+            TextView textView = new TextView(context);
+            LinearLayout.LayoutParams marginLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            marginLayoutParams.setMargins(8, 0, 8, 0);
+
+            if (text != null) {
+                textView.setTextColor(Color.BLACK);
+                textView.setBackgroundResource(R.drawable.card_border);
+                textView.setLayoutParams(marginLayoutParams);
+                textView.setPadding(10,10,10,10);
+                textView.setTextSize(14);
+                textView.setText(text);
+            }
+
+            if (holder.tagsList != null) {
+                holder.tagsList.addView(textView);
+            }
+        }
+
 
         if(recipe.isAccepted != true){
             holder.lockBtn.setText("ODBLOKUJ");
@@ -127,7 +152,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         ImageView imageView;
         TextView titleTextView;
         TextView userTextView;
-        LinearLayout tagsLayout;
+        TextView tagsContentText;
+        LinearLayout tagsList;
 
         int rank = 2;
         private Button lockBtn, commBtn, delBtn;
@@ -137,7 +163,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             imageView = itemView.findViewById(R.id.imageView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
             userTextView = itemView.findViewById(R.id.userTextView);
-            tagsLayout = itemView.findViewById(R.id.tagsTextView);
+            tagsList = itemView.findViewById(R.id.tagsList);
+            tagsContentText = itemView.findViewById(R.id.tagsContentText);
 
             lockBtn = itemView.findViewById(R.id.lock_btn);
             commBtn = itemView.findViewById(R.id.comm_btn);
