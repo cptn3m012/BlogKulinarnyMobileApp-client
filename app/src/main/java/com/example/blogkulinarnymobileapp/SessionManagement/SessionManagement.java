@@ -62,6 +62,11 @@ public class SessionManagement {
         editor.remove(SESSION_PASSWORD_KEY);
     }
 
+    public void logoutUser() {
+        editor.clear();
+        editor.apply();
+    }
+
     public static SessionManagement getInstance(Context context){
         if(instance == null){
             instance = new SessionManagement(context);
