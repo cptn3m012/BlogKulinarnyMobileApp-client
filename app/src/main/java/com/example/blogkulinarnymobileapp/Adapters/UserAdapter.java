@@ -17,7 +17,7 @@ import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
-    private List<User> userList;
+    private final List<User> userList;
     private OnItemClickListener listener;
 
     public UserAdapter(List<User> userList, Context context) {
@@ -64,9 +64,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView loginTextView;
-        private Button lockButton;
-        private Button deleteButton;
+        private final TextView loginTextView;
+        private final Button lockButton;
+        private final Button deleteButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

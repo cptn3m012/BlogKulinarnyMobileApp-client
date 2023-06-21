@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private class LoginTask extends AsyncTask<String, Void, Boolean> {
-        private Context context;
+        private final Context context;
 
         public LoginTask(Context context) {
             this.context = context;
