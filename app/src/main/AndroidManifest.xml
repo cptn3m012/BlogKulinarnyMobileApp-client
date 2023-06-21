@@ -15,9 +15,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name="com.example.blogkulinarnymobileapp.ACTION_LOGIN_SUCCESS"
-            android:exported="false" />
-        <activity
             android:name=".User.EditDataActivity"
             android:exported="false" />
         <activity
