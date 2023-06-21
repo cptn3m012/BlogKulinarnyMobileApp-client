@@ -19,7 +19,7 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
-    private List<Category> categoryList;
+    private final List<Category> categoryList;
     private OnItemClickListener listener;
 
     public CategoryAdapter(List<Category> categoryList, Context context) {

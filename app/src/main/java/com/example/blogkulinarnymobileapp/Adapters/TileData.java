@@ -1,8 +1,8 @@
 package com.example.blogkulinarnymobileapp.Adapters;
 
 public class TileData {
-    private String title;
-    private String desc;
+    private final String title;
+    private final String desc;
 
     public TileData(String title, String desc) {
         this.title = title;

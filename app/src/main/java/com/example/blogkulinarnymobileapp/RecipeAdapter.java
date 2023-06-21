@@ -71,6 +71,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Recipe recipe = recipeList.get(position);
         holder.titleTextView.setText(recipe.getTitle());
+        holder.userTextView.setText(String.valueOf(recipe.getUserFromRecipe()));
 
         List<String> listCategory = recipe.getRecipeStringCategories();
 
@@ -156,7 +157,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         LinearLayout tagsList;
 
         int rank = 2;
-        private Button lockBtn, commBtn, delBtn;
+        private final Button lockBtn;
+        private final Button commBtn;
+        private final Button delBtn;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -174,7 +177,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 }
 
 class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
-    private List<RecipeElements> stepList;
+    private final List<RecipeElements> stepList;
     private Context context;
 
     public StepAdapter(List<RecipeElements> stepList) {
@@ -201,9 +204,9 @@ class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView numOfListTextView;
-        private TextView descriptionTextView;
-        private ImageView imageView;
+        private final TextView numOfListTextView;
+        private final TextView descriptionTextView;
+        private final ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -214,7 +217,7 @@ class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
 
         public void bindStep(RecipeElements step) {
             if (step.getNoOfList() != 0){
-                numOfListTextView.setText(String.valueOf(step.getNoOfList()) + ".");
+                numOfListTextView.setText(step.getNoOfList() + ".");
                 descriptionTextView.setText(step.getDescription());
                 if(step.getNoOfList() != 0){
                     Picasso.get().load(step.getImageURL()).into(imageView);
@@ -225,8 +228,8 @@ class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
 }
 
 class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
-    private ImageView imageView;
-    private String urlImage;
+    private final ImageView imageView;
+    private final String urlImage;
 
     public ImageLoaderTask(ImageView imageView, String urlImage) {
         this.imageView = imageView;

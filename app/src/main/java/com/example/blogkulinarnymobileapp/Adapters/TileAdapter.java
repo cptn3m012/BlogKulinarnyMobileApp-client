@@ -13,7 +13,7 @@ import com.example.blogkulinarnymobileapp.R;
 import java.util.List;
 
 public class TileAdapter extends RecyclerView.Adapter<TileAdapter.TileViewHolder> {
-    private List<TileData> data;
+    private final List<TileData> data;
 
     private OnItemClickListener onItemClickListener;
 

@@ -16,9 +16,9 @@ import java.util.List;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
 
-    private Context context;
-    private List<Integer> avatarList;
-    private OnItemClickListener itemClickListener;
+    private final Context context;
+    private final List<Integer> avatarList;
+    private final OnItemClickListener itemClickListener;
     private int selectedAvatarPosition;
 
     public interface OnItemClickListener {

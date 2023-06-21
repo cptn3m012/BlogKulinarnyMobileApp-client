@@ -4,15 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.blogkulinarnymobileapp.Adapters.StarAdapter;
 import com.example.blogkulinarnymobileapp.Models.Recipe;
 import com.example.blogkulinarnymobileapp.Models.RecipeElements;
 import com.squareup.picasso.Picasso;
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeDetails extends AppCompatActivity {
+    Spinner rateStar;
 
     private LinearLayout stepsLayout;
     private TextView titleTextView;
@@ -46,6 +47,7 @@ public class RecipeDetails extends AppCompatActivity {
         descriptionTextView = findViewById(R.id.descriptionTextView);
         stepsRecyclerView = findViewById(R.id.stepsRecyclerView);
         ingredientsTextView = findViewById(R.id.ingredientsTextView);
+        rateStar = findViewById(R.id.rateStarSpinner);
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("recipe")) {
@@ -53,6 +55,11 @@ public class RecipeDetails extends AppCompatActivity {
             displayRecipeDetails(recipe);
             setupStepsRecyclerView(recipe.getStepsList());
         }
+
+        String[] array2 = {"0", "1", "2", "3","4","5"};
+
+        StarAdapter adapterStars = new StarAdapter(this, 1, array2);
+        rateStar.setAdapter(adapterStars);
     }
 
     private void displayRecipeDetails(Recipe recipe) {
@@ -71,7 +78,7 @@ public class RecipeDetails extends AppCompatActivity {
         }
 
         portionsTextView.setText(String.valueOf(recipe.getPortions()));
-        avgTimeTextView.setText(String.valueOf(recipe.getAvgTime()) + "min");
+        avgTimeTextView.setText(recipe.getAvgTime() + "min");
         descriptionTextView.setText(recipe.getDescription());
     }
 
@@ -87,7 +94,7 @@ public class RecipeDetails extends AppCompatActivity {
         }
 
         StepAdapter stepsAdapter = new StepAdapter(stepListNew);
-        ingredientsTextView.setText(stepsList.get(0).description.toString());
+        ingredientsTextView.setText(stepsList.get(0).description);
         stepsRecyclerView.setAdapter(stepsAdapter);
         stepsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
