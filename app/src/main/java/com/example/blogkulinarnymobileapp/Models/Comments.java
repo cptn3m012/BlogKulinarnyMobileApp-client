@@ -3,26 +3,26 @@ package com.example.blogkulinarnymobileapp.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 public class Comments implements Parcelable {
     public int id;
     public String text;
+    public String login;
     public int rate;
     public int recipeId;
-    public int userId;
+    public int usId;
     public int isBlocked;
 
     public Comments() {
     }
 
-    public Comments(int id, String text, int rate, int recipeId, int userId, int isBlocked) {
+    public Comments(int id, String text, int rate, int recipeId, int usId, int isBlocked, String login) {
         this.id = id;
         this.text = text;
         this.rate = rate;
         this.recipeId = recipeId;
-        this.userId = userId;
+        this.usId = usId;
         this.isBlocked = isBlocked;
+        this.login = login;
     }
 
     protected Comments(Parcel in) {
@@ -30,8 +30,9 @@ public class Comments implements Parcelable {
         text = in.readString();
         rate = in.readInt();
         recipeId = in.readInt();
-        userId = in.readInt();
+        usId = in.readInt();
         isBlocked = in.readInt();
+        login = in.readString();
     }
 
     public static final Creator<Comments> CREATOR = new Creator<Comments>() {
@@ -45,6 +46,14 @@ public class Comments implements Parcelable {
             return new Comments[size];
         }
     };
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
     public int getId() {
         return id;
@@ -78,12 +87,12 @@ public class Comments implements Parcelable {
         this.recipeId = recipeId;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getUsId() {
+        return usId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUsId(int usId) {
+        this.usId = usId;
     }
 
     public int getIsBlocked() {
@@ -105,7 +114,8 @@ public class Comments implements Parcelable {
         dest.writeString(text);
         dest.writeInt(rate);
         dest.writeInt(recipeId);
-        dest.writeInt(userId);
+        dest.writeInt(usId);
         dest.writeInt(isBlocked);
+        dest.writeString(login);
     }
 }

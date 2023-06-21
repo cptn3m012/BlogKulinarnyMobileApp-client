@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
             String mail = params[1];
             String password = params[2];
 
-            String url = "http://10.0.2.2:5000/auth/register";
+            String url = "http://10.0.2.2:5000/register";
             String jsonInputString = "{\"login\": \"" + login + "\", \"mail\": \"" + mail + "\", \"password\": \"" + password + "\"}";
 
             try {

@@ -8,6 +8,7 @@
         android:id="@+id/comAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:text="TextView"
@@ -20,8 +21,10 @@
         android:layout_height="100dp"
         android:layout_marginStart="10dp"
         android:background="@drawable/card_border"
+        android:padding="5dp"
         android:layout_marginTop="5dp"
         android:text="TextView"
+        android:textSize="16dp"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/comAuthor" />
@@ -32,6 +35,9 @@
         android:layout_height="50dp"
         android:drawableStart="@drawable/baseline_star_rate_24"
         android:text="TextView"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/comment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/comment" />

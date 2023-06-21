@@ -103,7 +103,7 @@ public class ManageRecipesActivity extends AppCompatActivity {
                         //TUTAJTRZEBA DAC ID SESJI TYLKO DLA ADMINA
                         //TUTAJTRZEBA DAC ID SESJI TYLKO DLA ADMINA
                         //TUTAJTRZEBA DAC ID SESJI TYLKO DLA ADMINA
-                        comm.setUserId(9);
+                        comm.setUsId(9);
 
 
                         comm.setText(commentEditText.getText().toString());
@@ -189,6 +189,8 @@ public class ManageRecipesActivity extends AppCompatActivity {
                             Comments comment = new Comments();
                             comment.setText(commentJson.getString("text"));
                             comment.setRate(commentJson.getInt("rate"));
+                            comment.setLogin(commentJson.getString("login"));
+                            comment.setUsId(commentJson.getInt("usId"));
                             commentList.add(comment);
                         }
                         recipe.setCommentsList(commentList);
@@ -273,7 +275,7 @@ public class ManageRecipesActivity extends AppCompatActivity {
                 commentJson.put("text", comment.getText());
                 commentJson.put("rate", 0);
                 commentJson.put("recipe_id", comment.getRecipeId());
-                commentJson.put("user_id", comment.getUserId());
+                commentJson.put("user_id", comment.getUsId());
                 commentJson.put("isB", true);
 
                 // Wysyłanie żądania HTTP do serwera

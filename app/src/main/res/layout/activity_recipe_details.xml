@@ -236,7 +236,7 @@
                     android:padding="10dp">
 
                 <EditText
-                    android:id="@+id/editTextTextMultiLine2"
+                    android:id="@+id/editTextCom"
                     android:layout_width="240dp"
                     android:layout_height="150dp"
                     android:background="@drawable/card_border"
@@ -255,6 +255,7 @@
                         android:padding="10dp">
 
                         <Button
+                            android:id="@+id/addCom"
                             android:layout_width="110dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/button_background_orange"
@@ -296,6 +297,7 @@
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/comRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginTop="10dp"

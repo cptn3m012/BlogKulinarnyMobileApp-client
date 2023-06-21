@@ -12,6 +12,7 @@ import android.os.Parcelable;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.blogkulinarnymobileapp.Models.Comments;
 import com.example.blogkulinarnymobileapp.Models.Ranks;
 import com.example.blogkulinarnymobileapp.Models.Recipe;
 import com.example.blogkulinarnymobileapp.Models.RecipeElements;
@@ -146,7 +147,7 @@ public class RecipeListActivity extends AppCompatActivity {
                     for (int i = 0; i < recipeArray.length(); i++) {
                         JSONObject recipeJson = recipeArray.getJSONObject(i);
                         Recipe recipe = new Recipe();
-                        recipe.setId(recipeJson.getInt("id"));
+                        recipe.setId(recipeJson.getInt("recipeIdentifier"));
                         recipe.setAccepted(recipeJson.getBoolean("isAccepted"));
                         recipe.setTitle(recipeJson.getString("title"));
                         recipe.setImageURL(recipeJson.getString("imageURL"));
@@ -160,6 +161,19 @@ public class RecipeListActivity extends AppCompatActivity {
                         List<String> categoryList = new ArrayList<>();
                         for (int k = 0; k < categoryArray.length(); k++){
                             categoryList.add(categoryArray.getString(k));
+                        }
+
+                        // Parsowanie komentarzy
+                        JSONArray commentsArray = recipeJson.getJSONArray("comments");
+                        List<Comments> commentList = new ArrayList<>();
+                        for (int k = 0; k < commentsArray.length(); k++) {
+                            JSONObject commentJson = commentsArray.getJSONObject(k);
+                            Comments comment = new Comments();
+                            comment.setText(commentJson.getString("text"));
+                            comment.setRate(commentJson.getInt("rate"));
+                            comment.setLogin(commentJson.getString("login"));
+                            comment.setUsId(commentJson.getInt("usId"));
+                            commentList.add(comment);
                         }
 
                         // Parsowanie kroków (stepList)
@@ -176,6 +190,7 @@ public class RecipeListActivity extends AppCompatActivity {
                         if(recipe.isAccepted==true){
                             recipe.setRecipeStringCategories(categoryList);
                             recipe.setStepsList(stepList);
+                            recipe.setCommentsList(commentList);
                             recipeList.add(recipe);
                         }
 
