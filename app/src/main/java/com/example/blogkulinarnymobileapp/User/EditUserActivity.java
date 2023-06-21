@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.blogkulinarnymobileapp.Adapters.GalleryAdapter;
 import com.example.blogkulinarnymobileapp.R;
@@ -26,6 +27,8 @@ public class EditUserActivity extends AppCompatActivity implements GalleryAdapte
     private GalleryAdapter galleryAdapter;
     private Uri selectedImageUri;
     private List<Integer> avatarList;
+
+    private TextView usernameTextView;
     private static final int REQUEST_IMAGE_PICK = 1;
 
     @Override
@@ -63,6 +66,15 @@ public class EditUserActivity extends AppCompatActivity implements GalleryAdapte
         // Utworzenie i przypisanie adaptera galerii
         galleryAdapter = new GalleryAdapter(this, avatarList, this);
         recyclerView.setAdapter(galleryAdapter);
+
+        usernameTextView = findViewById(R.id.usernameTextView); // Inicjalizacja TextView
+
+        // Pobranie nazwy aktualnie zalogowanego użytkownika
+        String currentUsername = getCurrentUsername();
+
+        System.out.println("Current Username: " + currentUsername);
+        // Ustawienie nazwy użytkownika w TextView
+        usernameTextView.setText(currentUsername);
     }
 
 
@@ -81,6 +93,11 @@ public class EditUserActivity extends AppCompatActivity implements GalleryAdapte
     public void onItemClick(int position) {
         int avatarResource = avatarList.get(position);
         avatarImageView.setImageResource(avatarResource);
+    }
+
+    // Metoda do pobrania nazwy aktualnie zalogowanego użytkownika
+    private String getCurrentUsername() {
+        return sessionManagement.getSessionUsername();
     }
 
     public void editProfileButtonClicked(View view) {

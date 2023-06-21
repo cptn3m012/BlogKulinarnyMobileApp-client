@@ -31,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private TextView registerTextView;
     private int rank, id;
+
+    private String username;
     private SessionManagement sessionManagement;
 
     @Override
@@ -45,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
 
         passwordEditText.setContentDescription("Password");
         usernameEditText.setContentDescription("Login");
+
+        sessionManagement = SessionManagement.getInstance(LoginActivity.this);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                     boolean success = jsonObject.getBoolean("result");
                     rank  = jsonObject.getInt("user.rank");
                     id = jsonObject.getInt("user.id");
+                    username = jsonObject.getString("user.login");
                     return success;
                 } else {
                     return false;
@@ -123,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
             if (result) {
                 Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                 sessionManagement = SessionManagement.getInstance(LoginActivity.this);
-                sessionManagement.saveSession(rank, id);
+                sessionManagement.saveSession(rank, id, username);
                 if(rank == 1 || rank ==2){
                     // Tworzenie i inicjalizacja intentu dla nowej aktywności
                     Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
@@ -133,9 +138,6 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, UserActivity.class);
                     startActivity(intent);
                 }
-
-                Intent intent = new Intent("com.example.blogkulinarnymobileapp.ACTION_LOGIN_SUCCESS");
-                startActivity(intent);
                 finish();
 
             } else {
