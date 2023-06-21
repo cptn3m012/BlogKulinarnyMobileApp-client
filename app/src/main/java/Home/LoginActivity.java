@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView registerTextView;
     private int rank, id;
 
-    private String username, mail;
+    private String username, mail, password;
     private SessionManagement sessionManagement;
 
     @Override
@@ -114,6 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                     id = jsonObject.getInt("user.id");
                     username = jsonObject.getString("user.login");
                     mail = jsonObject.getString("user.mail");
+                    password = jsonObject.getString("user.password");
                     return success;
                 } else {
                     return false;
@@ -129,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
             if (result) {
                 Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                 sessionManagement = SessionManagement.getInstance(LoginActivity.this);
-                sessionManagement.saveSession(rank, id, username, mail);
+                sessionManagement.saveSession(rank, id, username, mail, password);
                 if(rank == 1 || rank ==2){
                     // Tworzenie i inicjalizacja intentu dla nowej aktywności
                     Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
