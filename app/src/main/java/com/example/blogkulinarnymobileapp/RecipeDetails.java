@@ -55,6 +55,7 @@ public class RecipeDetails extends AppCompatActivity {
     private RecyclerView stepsRecyclerView, comRecyclerView;
     private Button addCom;
     private SessionManagement sessionManagement;
+    CommentAdapter commentAdapter;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +129,16 @@ public class RecipeDetails extends AppCompatActivity {
 
         StarAdapter adapterStars = new StarAdapter(this, 1, array2);
         rateStar.setAdapter(adapterStars);
+
+        commentAdapter.setOnCommentDeleteListener(new CommentAdapter.OnCommentDeleteListener() {
+            @Override
+            public void onCommentDelete(int id) {
+                RecipeDetails.DeleteTask deleteTask = new RecipeDetails.DeleteTask(RecipeDetails.this);
+                deleteTask.execute(String.valueOf(id));
+                finish();
+                startActivity(getIntent());
+            }
+        });
     }
 
     private void displayRecipeDetails(Recipe recipe) {
@@ -156,7 +167,7 @@ public class RecipeDetails extends AppCompatActivity {
     }
 
     private void setupCommentsRecyclerView(List<Comments> commentsList){
-        CommentAdapter commentAdapter = new CommentAdapter(commentsList);
+        commentAdapter = new CommentAdapter(commentsList);
         comRecyclerView.setAdapter(commentAdapter);
         comRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -213,9 +224,53 @@ public class RecipeDetails extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             if (result) {
-                Toast.makeText(context, "Udało się dodać komentarz", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecipeDetails.this, "Udało się dodać komentarz", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(context, "Błąd podczas dodawania komentarza", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecipeDetails.this, "Błąd podczas dodawania komentarza", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private class DeleteTask extends AsyncTask<String, Void, Boolean> {
+        private final Context context;
+
+        public DeleteTask(Context context) {this.context = context;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            int id = Integer.parseInt(params[0]);
+
+            String url = "http://10.0.2.2:5000/delUserComm";
+            String jsonInputString = "{\"comment_id\": \"" + id + "\"}";
+
+            try {
+                URL registerUrl = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) registerUrl.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setDoOutput(true);
+
+                OutputStream outputStream = connection.getOutputStream();
+                outputStream.write(jsonInputString.getBytes());
+                outputStream.flush();
+
+                int responseCode = connection.getResponseCode();
+                connection.disconnect();
+
+                return responseCode == HttpURLConnection.HTTP_OK;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                Toast.makeText(RecipeDetails.this, "Udało się usunąć komentarz", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(RecipeDetails.this, "Błąd podczas usuwania komentarza", Toast.LENGTH_SHORT).show();
             }
         }
     }

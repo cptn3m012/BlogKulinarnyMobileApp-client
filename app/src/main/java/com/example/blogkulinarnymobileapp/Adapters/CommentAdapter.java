@@ -1,11 +1,14 @@
 package com.example.blogkulinarnymobileapp.Adapters;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,11 +16,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.blogkulinarnymobileapp.Models.Comments;
 import com.example.blogkulinarnymobileapp.R;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
     List<Comments> commentsList;
-    private int id;
+    public int id;
+    private OnCommentDeleteListener commentDeleteListener;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public CommentAdapter(List<Comments> commentsList) {
         this.commentsList = commentsList;
@@ -35,6 +51,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         return commentsList.size();
     }
 
+    public interface OnCommentDeleteListener {
+        void onCommentDelete(int id);
+    }
+
+    public void setOnCommentDeleteListener(OnCommentDeleteListener listener) {
+        commentDeleteListener = listener;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         Comments comments = commentsList.get(position);
@@ -46,7 +70,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.comDeleteBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(comments.getId());
+                if (commentDeleteListener != null) {
+                    commentDeleteListener.onCommentDelete(comments.getId());
+                }
             }
         });
     }

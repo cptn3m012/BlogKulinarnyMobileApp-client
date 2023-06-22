@@ -176,6 +176,7 @@ public class ManageRecipesActivity extends AppCompatActivity {
                             JSONObject commentJson = commentsArray.getJSONObject(k);
                                 Comments comment = new Comments();
                                 comment.setText(commentJson.getString("text"));
+                                comment.setId(commentJson.getInt("comment_id"));
                                 comment.setRate(commentJson.getInt("rate"));
                                 comment.setLogin(commentJson.getString("login"));
                                 comment.setUsId(commentJson.getInt("usId"));

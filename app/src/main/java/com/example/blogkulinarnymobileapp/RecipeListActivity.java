@@ -156,6 +156,7 @@ public class RecipeListActivity extends AppCompatActivity {
                             Comments comment = new Comments();
                             comment.setText(commentJson.getString("text"));
                             comment.setRate(commentJson.getInt("rate"));
+                            comment.setId(commentJson.getInt("comment_id"));
                             comment.setLogin(commentJson.getString("login"));
                             comment.setUsId(commentJson.getInt("usId"));
                             commentList.add(comment);

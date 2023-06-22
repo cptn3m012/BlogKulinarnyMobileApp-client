@@ -111,7 +111,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             titleTextView = itemView.findViewById(R.id.titleTextView);
             userTextView = itemView.findViewById(R.id.userTextView);
             tagsList = itemView.findViewById(R.id.tagsList);
-            tagsContentText = itemView.findViewById(R.id.tagsContentText);
+            //tagsContentText = itemView.findViewById(R.id.tagsContentText);
         }
     }
 }
