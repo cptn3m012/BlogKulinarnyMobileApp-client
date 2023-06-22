@@ -24,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -69,7 +70,9 @@ public class ManageUsersActivity extends AppCompatActivity implements UserAdapte
 
     @Override
     public void onDeleteButtonClick(User user) {
-        Toast.makeText(ManageUsersActivity.this, "Delete button clicked for user: " + user.getLogin(), Toast.LENGTH_SHORT).show();
+        DeleteUserTask dut = new DeleteUserTask(this);
+        dut.execute(user.getId());
+        recreate();
     }
 
     class LoadUserTask extends AsyncTask<List<User>, Void, List<User>> {
@@ -172,4 +175,52 @@ public class ManageUsersActivity extends AppCompatActivity implements UserAdapte
             adapter.notifyDataSetChanged();
         }
     }
+
+    class DeleteUserTask extends AsyncTask<Integer, Void, Boolean> {
+
+        private WeakReference<Context> contextRef;
+
+        DeleteUserTask(Context context) {
+            contextRef = new WeakReference<>(context);
+        }
+
+        @Override
+        protected Boolean doInBackground(Integer... params) {
+            int userId = params[0];
+
+            String url = "http://10.0.2.2:5000/deleteUsersToAccept/" + userId;
+
+            try {
+                URL requestUrl = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
+                connection.setRequestMethod("DELETE");
+
+                int responseCode = connection.getResponseCode();
+                connection.disconnect();
+
+                return responseCode == HttpURLConnection.HTTP_OK;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
+            Context context = contextRef.get();
+            if (context != null) {
+                if (success) {
+                    Toast.makeText(ManageUsersActivity.this, "Pomyslnie usunieto uzytkownika",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ManageUsersActivity.this, "Blad serwera",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
 }

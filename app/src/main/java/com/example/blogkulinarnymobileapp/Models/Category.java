@@ -54,6 +54,4 @@ public class Category {
 
     //Relationships
     public List<RecipesCategory> recipesCategories;
-
-
 }

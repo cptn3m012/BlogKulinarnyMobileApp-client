@@ -22,6 +22,16 @@ public class SessionManagement {
         editor = sharedPreferences.edit();
     }
 
+    public Ranks getUserRank() {
+        if(sharedPreferences.getInt(SESSION_KEY, -1) == 0){
+            return Ranks.USER;
+        }
+        else if(sharedPreferences.getInt(SESSION_KEY, -1) ==1){
+            return Ranks.ADMIN;
+        }
+        else return Ranks.HEAD_ADMIN;
+    }
+
     //Zapisywanie sesji
     public void saveSession(int rank, int id, String username, String mail, String password){
         editor.putInt(SESSION_KEY,rank);

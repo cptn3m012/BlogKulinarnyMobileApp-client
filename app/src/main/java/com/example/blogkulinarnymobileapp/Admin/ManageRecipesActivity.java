@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.blogkulinarnymobileapp.Adapters.RecipeAdapterManagment;
 import com.example.blogkulinarnymobileapp.Models.Comments;
 import com.example.blogkulinarnymobileapp.Models.Recipe;
 import com.example.blogkulinarnymobileapp.Models.RecipeElements;
@@ -40,28 +42,30 @@ public class ManageRecipesActivity extends AppCompatActivity {
     private SessionManagement sessionManagement;
     private int rank, id;
     private RecyclerView recyclerView;
-    private RecipeAdapter adapter;
-
-    private Context context;
+    private RecipeAdapterManagment adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_list);
 
-        recyclerView = findViewById(R.id.recyclerView);
-
-        List<Recipe> recipeList = new ArrayList<>();
-
-        ManageRecipesActivity.LoadRecipeTask loadRecipeTask = new ManageRecipesActivity.LoadRecipeTask();
-        loadRecipeTask.execute(recipeList);
-
         sessionManagement = SessionManagement.getInstance(ManageRecipesActivity.this);
         rank = sessionManagement.getSession();
         id = sessionManagement.getSessionId();
 
-        adapter = new RecipeAdapter(recipeList, ManageRecipesActivity.this, getApplicationContext());
-        adapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        List<Recipe> recipeList = new ArrayList<>();
+
+
+        LoadRecipeTask loadRecipeTask = new LoadRecipeTask();
+        loadRecipeTask.execute(recipeList);
+
+        adapter = new RecipeAdapterManagment(recipeList, ManageRecipesActivity.this, getApplicationContext());
+
+
+        adapter.setOnItemClickListener(new RecipeAdapterManagment.OnItemClickListener() {
             @Override
             public void onItemClick(Recipe recipe) {
 
@@ -75,7 +79,6 @@ public class ManageRecipesActivity extends AppCompatActivity {
                 UpdateRecipeStatusTask urst = new UpdateRecipeStatusTask();
                 urst.execute(recipe);
                 recreate();
-
             }
 
             @Override
@@ -97,20 +100,12 @@ public class ManageRecipesActivity extends AppCompatActivity {
                         Comments comm = new Comments();
                         comm.setRecipeId(recipe.getId());
 
-
-                        //TUTAJTRZEBA DAC ID SESJI TYLKO DLA ADMINA
-                        //TUTAJTRZEBA DAC ID SESJI TYLKO DLA ADMINA
-                        //TUTAJTRZEBA DAC ID SESJI TYLKO DLA ADMINA
-                        //TUTAJTRZEBA DAC ID SESJI TYLKO DLA ADMINA
-                        //TUTAJTRZEBA DAC ID SESJI TYLKO DLA ADMINA
-                        comm.setUsId(9);
-
-
+                        comm.setUsId(sessionManagement.getSessionId());
                         comm.setText(commentEditText.getText().toString());
 
                         onCommentAdded(comm);
                         dialog.dismiss();
-                        Toast.makeText(ManageRecipesActivity.this, "Pomyślnie" +
+                        Toast.makeText(ManageRecipesActivity.this, "Pomyślnie " +
                                 "dodano komentarz", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -125,8 +120,8 @@ public class ManageRecipesActivity extends AppCompatActivity {
                 recreate();
             }
         });
+
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private class LoadRecipeTask extends AsyncTask<List<Recipe>, Void, List<Recipe>> {
@@ -158,7 +153,7 @@ public class ManageRecipesActivity extends AppCompatActivity {
                     for (int i = 0; i < recipeArray.length(); i++) {
                         JSONObject recipeJson = recipeArray.getJSONObject(i);
                         Recipe recipe = new Recipe();
-                        recipe.setId(recipeJson.getInt("id"));
+                        recipe.setId(recipeJson.getInt("recipeIdentifier"));
                         recipe.setAccepted(recipeJson.getBoolean("isAccepted"));
                         recipe.setTitle(recipeJson.getString("title"));
                         recipe.setImageURL(recipeJson.getString("imageURL"));
@@ -167,6 +162,28 @@ public class ManageRecipesActivity extends AppCompatActivity {
                         recipe.setAvgTime(recipeJson.getInt("avgTime"));
                         recipe.setPortions(recipeJson.getInt("portions"));
                         recipe.setUserId(recipeJson.getInt("userId"));
+
+                        JSONArray categoryArray = recipeJson.getJSONArray("categories");
+                        List<String> categoryList = new ArrayList<>();
+                        for (int k = 0; k < categoryArray.length(); k++){
+                            categoryList.add(categoryArray.getString(k));
+                        }
+
+                        // Parsowanie komentarzy
+                        JSONArray commentsArray = recipeJson.getJSONArray("comments");
+                        List<Comments> commentList = new ArrayList<>();
+                        for (int k = 0; k < commentsArray.length(); k++) {
+                            JSONObject commentJson = commentsArray.getJSONObject(k);
+                                Comments comment = new Comments();
+                                comment.setText(commentJson.getString("text"));
+                                comment.setRate(commentJson.getInt("rate"));
+                                comment.setLogin(commentJson.getString("login"));
+                                comment.setUsId(commentJson.getInt("usId"));
+                                comment.setIsBlocked(commentJson.getInt("isBlocked"));
+                                if(comment.getIsBlocked() == 1){
+                                    commentList.add(comment);
+                                }
+                        }
 
                         // Parsowanie kroków (stepList)
                         JSONArray stepsArray = recipeJson.getJSONArray("steps");
@@ -179,23 +196,10 @@ public class ManageRecipesActivity extends AppCompatActivity {
                             step.setNoOfList(stepJson.getInt("noOfList"));
                             stepList.add(step);
                         }
-                        recipe.setStepsList(stepList);
-
-                        // Parsowanie komentarzy
-                        JSONArray commentsArray = recipeJson.getJSONArray("comments");
-                        List<Comments> commentList = new ArrayList<>();
-                        for (int k = 0; k < commentsArray.length(); k++) {
-                            JSONObject commentJson = commentsArray.getJSONObject(k);
-                            Comments comment = new Comments();
-                            comment.setText(commentJson.getString("text"));
-                            comment.setRate(commentJson.getInt("rate"));
-                            comment.setLogin(commentJson.getString("login"));
-                            comment.setUsId(commentJson.getInt("usId"));
-                            commentList.add(comment);
-                        }
-                        recipe.setCommentsList(commentList);
-
-                        recipeList.add(recipe);
+                            recipe.setRecipeStringCategories(categoryList);
+                            recipe.setStepsList(stepList);
+                            recipe.setCommentsList(commentList);
+                            recipeList.add(recipe);
                     }
                 }
                 connection.disconnect();
@@ -213,7 +217,6 @@ public class ManageRecipesActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
     }
-
 
     private class UpdateRecipeStatusTask extends AsyncTask<Recipe, Void, Void> {
 
@@ -255,12 +258,48 @@ public class ManageRecipesActivity extends AppCompatActivity {
         }
     }
 
+    private class DeleteRecipeTask extends AsyncTask<Integer, Void, Void> {
+        @Override
+        protected Void doInBackground(Integer... recipeIds) {
+            int recipeId = recipeIds[0];
+            String url = "http://10.0.2.2:5000/delRecipeAdmin";
+
+            try {
+                // Tworzenie obiektu JSON z identyfikatorem komentarza
+                JSONObject commentIdJson = new JSONObject();
+                commentIdJson.put("recipe_id", recipeId);
+
+                // Wysyłanie żądania HTTP do serwera
+                URL requestUrl = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setDoOutput(true);
+
+                OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+                writer.write(commentIdJson.toString());
+                writer.flush();
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    Log.d("DeleteRecipe", "Comment deleted successfully");
+                }
+
+                connection.disconnect();
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
 
     // dodawanie komentarzy
     public void onCommentAdded(Comments comment) {
 
         AddCommentTask act = new AddCommentTask();
         act.execute(comment);
+        recreate();
     }
 
     private class AddCommentTask extends AsyncTask<Comments, Void, Void> {
@@ -301,41 +340,4 @@ public class ManageRecipesActivity extends AppCompatActivity {
             return null;
         }
     }
-
-    private class DeleteRecipeTask extends AsyncTask<Integer, Void, Void> {
-        @Override
-        protected Void doInBackground(Integer... recipeIds) {
-            int recipeId = recipeIds[0];
-            String url = "http://10.0.2.2:5000/delRecipeAdmin";
-
-            try {
-                // Tworzenie obiektu JSON z identyfikatorem komentarza
-                JSONObject commentIdJson = new JSONObject();
-                commentIdJson.put("recipe_id", recipeId);
-
-                // Wysyłanie żądania HTTP do serwera
-                URL requestUrl = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setRequestProperty("Content-Type", "application/json");
-                connection.setDoOutput(true);
-
-                OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-                writer.write(commentIdJson.toString());
-                writer.flush();
-
-                int responseCode = connection.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.d("DeleteRecipe", "Comment deleted successfully");
-                }
-
-                connection.disconnect();
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-    }
-
 }

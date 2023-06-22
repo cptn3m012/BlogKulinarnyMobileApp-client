@@ -82,21 +82,6 @@ public class RecipeListActivity extends AppCompatActivity {
                 // Uruchomienie nowej aktywności
                 startActivity(intent);
             }
-
-            @Override
-            public void onLockButtonClick(Recipe recipe) {
-
-            }
-
-            @Override
-            public void onCommentButtonClick(Recipe recipe, Context context) {
-
-            }
-
-            @Override
-            public void onDeleteButtonClick(Recipe recipe) {
-
-            }
         });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

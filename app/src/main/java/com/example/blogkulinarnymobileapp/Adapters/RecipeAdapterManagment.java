@@ -1,4 +1,4 @@
-package com.example.blogkulinarnymobileapp;
+package com.example.blogkulinarnymobileapp.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,16 +12,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.blogkulinarnymobileapp.Models.Recipe;
 import com.example.blogkulinarnymobileapp.Models.RecipeElements;
+import com.example.blogkulinarnymobileapp.R;
 import com.example.blogkulinarnymobileapp.SessionManagement.SessionManagement;
 import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.util.List;
 
-public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
+public class RecipeAdapterManagment extends RecyclerView.Adapter<RecipeAdapterManagment.ViewHolder> {
     Activity activity;
     Context context;
     private List<Recipe> recipeList;
@@ -30,13 +34,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
     public interface OnItemClickListener {
         void onItemClick(Recipe recipe);
+        void onLockButtonClick(Recipe recipe);
+        void onCommentButtonClick(Recipe recipe, Context context);
+        void onDeleteButtonClick(Recipe recipe);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
 
-    public RecipeAdapter(List<Recipe> recipeList, Activity activity, Context context) {
+    public RecipeAdapterManagment(List<Recipe> recipeList, Activity activity, Context context) {
         this.recipeList = recipeList;
         this.activity = activity;
         this.context = context;
@@ -50,7 +57,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recipe, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recipe_managment, parent, false);
         return new ViewHolder(view);
     }
 
@@ -81,6 +88,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             }
         }
 
+
+        if(recipe.isAccepted != true){
+            holder.lockBtn.setText("ODBLOKUJ");
+        }
+
         new ImageLoaderTask(holder.imageView, recipe.getImageURL()).execute(recipe.getImageURL());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +103,39 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 }
             }
         });
+
+        if (holder.rank == 2) {
+            holder.lockBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onLockButtonClick(recipe);
+                    }
+                }
+            });
+
+            holder.commBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onCommentButtonClick(recipe, v.getContext());
+                    }
+                }
+            });
+
+            holder.delBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onDeleteButtonClick(recipe);
+                    }
+                }
+            });
+        } else {
+            holder.lockBtn.setVisibility(View.GONE);
+            holder.commBtn.setVisibility(View.GONE);
+            holder.delBtn.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -105,6 +150,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         TextView tagsContentText;
         LinearLayout tagsList;
 
+        int rank = 2;
+        private final Button lockBtn;
+        private final Button commBtn;
+        private final Button delBtn;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
@@ -112,6 +162,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             userTextView = itemView.findViewById(R.id.userTextView);
             tagsList = itemView.findViewById(R.id.tagsList);
             tagsContentText = itemView.findViewById(R.id.tagsContentText);
+
+            lockBtn = itemView.findViewById(R.id.lock_btn);
+            commBtn = itemView.findViewById(R.id.comm_btn);
+            delBtn = itemView.findViewById(R.id.del_btn);
         }
     }
 }
