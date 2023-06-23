@@ -141,6 +141,7 @@ public class RecipeListActivity extends AppCompatActivity {
                         recipe.setAvgTime(recipeJson.getInt("avgTime"));
                         recipe.setPortions(recipeJson.getInt("portions"));
                         recipe.setUserId(recipeJson.getInt("userId"));
+                        recipe.setAuthor(recipeJson.getString("u.login"));
 
                         JSONArray categoryArray = recipeJson.getJSONArray("categories");
                         List<String> categoryList = new ArrayList<>();

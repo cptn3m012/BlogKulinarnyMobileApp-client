@@ -65,7 +65,7 @@ public class RecipeAdapterManagment extends RecyclerView.Adapter<RecipeAdapterMa
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Recipe recipe = recipeList.get(position);
         holder.titleTextView.setText(recipe.getTitle());
-        holder.userTextView.setText(String.valueOf(recipe.getUserFromRecipe()));
+        holder.userTextView.setText(recipe.getAuthor());
 
         List<String> listCategory = recipe.getRecipeStringCategories();
 

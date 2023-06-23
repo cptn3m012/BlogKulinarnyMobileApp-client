@@ -7,6 +7,12 @@
     android:padding="8dp"
     android:gravity="center">
 
+    <CheckBox
+        android:id="@+id/CBFinished"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:buttonTint="#198754"/>
+
     <TextView
         android:id="@+id/numOfListTextView"
         android:layout_width="wrap_content"

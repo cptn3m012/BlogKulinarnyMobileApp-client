@@ -4,15 +4,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.compose.ui.graphics.ColorKt;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.blogkulinarnymobileapp.Models.Recipe;
 import com.example.blogkulinarnymobileapp.Models.RecipeElements;
@@ -58,7 +62,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Recipe recipe = recipeList.get(position);
         holder.titleTextView.setText(recipe.getTitle());
-        holder.userTextView.setText(String.valueOf(recipe.getUserFromRecipe()));
+        holder.userTextView.setText(recipe.getAuthor());
 
         List<String> listCategory = recipe.getRecipeStringCategories();
 
@@ -136,6 +140,20 @@ class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RecipeElements step = stepList.get(position);
         holder.bindStep(step);
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    holder.numOfListTextView.setTextColor(Color.rgb(25, 135, 84));
+                    holder.descriptionTextView.setTextColor(Color.rgb(25, 135, 84));
+                    holder.descriptionTextView.setPaintFlags(holder.descriptionTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                } else {
+                    holder.numOfListTextView.setTextColor(Color.BLACK);
+                    holder.descriptionTextView.setTextColor(Color.BLACK);
+                    holder.descriptionTextView.setPaintFlags(holder.descriptionTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                }
+            }
+        });
     }
 
     @Override
@@ -147,12 +165,14 @@ class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
         private final TextView numOfListTextView;
         private final TextView descriptionTextView;
         private final ImageView imageView;
+        private final CheckBox checkBox;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             numOfListTextView = itemView.findViewById(R.id.numOfListTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             imageView = itemView.findViewById(R.id.imageView);
+            checkBox = itemView.findViewById(R.id.CBFinished);
         }
 
         public void bindStep(RecipeElements step) {

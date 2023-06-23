@@ -17,6 +17,8 @@ public class Recipe implements Parcelable {
     public int difficulty;
     public int avgTime;
     public int portions;
+
+    public String author;
     public int userId;
     public User user;
     public List<RecipesCategory> recipesCategories;
@@ -30,10 +32,11 @@ public class Recipe implements Parcelable {
     public Recipe() {
     }
 
-    public Recipe(int id, boolean isAccepted, String title, String imageURL, String description,
+    public Recipe(int id, boolean isAccepted, String title, String imageURL, String description, String author,
                   int difficulty, int avgTime, int portions, int userId, User user, List<String> recipeStringCategories,
                   List<RecipesCategory> recipesCategories, List<RecipeElements> stepsList, List<Comments> commentsList) {
         this.id = id;
+        this.author = author;
         this.isAccepted = isAccepted;
         this.title = title;
         this.imageURL = imageURL;
@@ -62,6 +65,7 @@ public class Recipe implements Parcelable {
         userId = in.readInt();
         stepsList = in.createTypedArrayList(RecipeElements.CREATOR);
         commentsList = in.createTypedArrayList(Comments.CREATOR);
+        author = in.readString();
     }
 
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
@@ -75,6 +79,14 @@ public class Recipe implements Parcelable {
             return new Recipe[size];
         }
     };
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
     public int getId() {
         return id;
@@ -217,5 +229,6 @@ public class Recipe implements Parcelable {
         dest.writeInt(userId);
         dest.writeTypedList(stepsList);
         dest.writeTypedList(commentsList);
+        dest.writeString(author);
     }
 }
