@@ -27,13 +27,21 @@ import com.example.blogkulinarnymobileapp.Models.RecipeElements;
 import com.example.blogkulinarnymobileapp.SessionManagement.SessionManagement;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import Home.LoginActivity;
 import Home.RegisterActivity;
@@ -41,7 +49,7 @@ import Home.RegisterActivity;
 public class RecipeDetails extends AppCompatActivity {
     Spinner rateStar;
     private Recipe recipeComment;
-    private int rate, id, rank;
+    private int rate, commentId, rank, id;
 
     private LinearLayout stepsLayout;
     private TextView titleTextView;
@@ -105,16 +113,12 @@ public class RecipeDetails extends AppCompatActivity {
                     });
                 } else {
                     RecipeDetails.CommentTask registerTask = new RecipeDetails.CommentTask(RecipeDetails.this);
-                    //Tutaj potem zmienić id (9)
+                    commentId = recipeComment.id;
                     registerTask.execute(String.valueOf(rate), String.valueOf(recipeComment.id),
-                            String.valueOf(editTextCom.getText()), String.valueOf(9));
+                            String.valueOf(editTextCom.getText()), String.valueOf(id));
                 }
             }
         });
-
-        //RegisterActivity.RegisterTask registerTask = new RegisterActivity.RegisterTask(RegisterActivity.this);
-        //registerTask.execute(login, email, password);
-
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("recipe")) {
@@ -133,10 +137,10 @@ public class RecipeDetails extends AppCompatActivity {
         commentAdapter.setOnCommentDeleteListener(new CommentAdapter.OnCommentDeleteListener() {
             @Override
             public void onCommentDelete(int id) {
+                List<Recipe> newCommentList = new ArrayList<>();
                 RecipeDetails.DeleteTask deleteTask = new RecipeDetails.DeleteTask(RecipeDetails.this);
                 deleteTask.execute(String.valueOf(id));
-                finish();
-                startActivity(getIntent());
+                System.out.println(newCommentList);
             }
         });
     }
@@ -178,7 +182,7 @@ public class RecipeDetails extends AppCompatActivity {
             stepListNew.add(stepsList.get(i));
         }
 
-        StepAdapter stepsAdapter = new StepAdapter(stepListNew);
+        StepAdapter stepsAdapter = new StepAdapter(stepListNew.stream().sorted(Comparator.comparing(RecipeElements::getNoOfList)).collect(Collectors.toList()));
         ingredientsTextView.setText(stepsList.get(0).description);
         stepsRecyclerView.setAdapter(stepsAdapter);
         stepsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -187,7 +191,8 @@ public class RecipeDetails extends AppCompatActivity {
     private class CommentTask extends AsyncTask<String, Void, Boolean> {
         private final Context context;
 
-        public CommentTask(Context context) {this.context = context;
+        public CommentTask(Context context) {
+            this.context = context;
         }
 
         @Override
@@ -234,7 +239,8 @@ public class RecipeDetails extends AppCompatActivity {
     private class DeleteTask extends AsyncTask<String, Void, Boolean> {
         private final Context context;
 
-        public DeleteTask(Context context) {this.context = context;
+        public DeleteTask(Context context) {
+            this.context = context;
         }
 
         @Override

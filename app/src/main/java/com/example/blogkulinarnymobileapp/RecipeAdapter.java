@@ -176,6 +176,7 @@ class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
         }
 
         public void bindStep(RecipeElements step) {
+
             if (step.getNoOfList() != 0){
                 numOfListTextView.setText(step.getNoOfList() + ".");
                 descriptionTextView.setText(step.getDescription());
