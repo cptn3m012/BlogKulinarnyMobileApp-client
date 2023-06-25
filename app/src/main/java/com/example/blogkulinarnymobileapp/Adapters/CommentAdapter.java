@@ -46,13 +46,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         return new CommentViewHolder(itemView);
     }
 
+    public void updateComments(List<Comments> commentsList) {
+        this.commentsList = commentsList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return commentsList.size();
     }
 
     public interface OnCommentDeleteListener {
-        void onCommentDelete(int id);
+        void onCommentDelete(int id, int usId);
     }
 
     public void setOnCommentDeleteListener(OnCommentDeleteListener listener) {
@@ -71,7 +76,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             @Override
             public void onClick(View v) {
                 if (commentDeleteListener != null) {
-                    commentDeleteListener.onCommentDelete(comments.getId());
+                    commentDeleteListener.onCommentDelete(comments.getId(), comments.getUsId());
                 }
             }
         });

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -50,7 +51,7 @@ public class RecipeDetails extends AppCompatActivity {
     Spinner rateStar;
     private Recipe recipeComment;
     private int rate, commentId, rank, id;
-
+    private List<Comments> commentsList;
     private LinearLayout stepsLayout;
     private TextView titleTextView;
     private ImageView imageView;
@@ -104,18 +105,16 @@ public class RecipeDetails extends AppCompatActivity {
         addCom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Objects.isNull(rank)){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(RecipeDetails.this, "Nie jesteś zalogowany", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                if (Objects.isNull(editTextCom.getText())){
+                    Toast.makeText(RecipeDetails.this, "Nie możesz przesłać pustego komentarza", Toast.LENGTH_SHORT).show();
+                }else if (Objects.isNull(rank)){
+                    Toast.makeText(RecipeDetails.this, "Nie jesteś zalogowany", Toast.LENGTH_SHORT).show();
                 } else {
-                    RecipeDetails.CommentTask registerTask = new RecipeDetails.CommentTask(RecipeDetails.this);
+                    commentsList = new ArrayList<>();
+                    RecipeDetails.CommentTask registerTask = new RecipeDetails.CommentTask();
                     commentId = recipeComment.id;
                     registerTask.execute(String.valueOf(rate), String.valueOf(recipeComment.id),
-                            String.valueOf(editTextCom.getText()), String.valueOf(id));
+                            String.valueOf(editTextCom.getText()), String.valueOf(id), commentsList);
                 }
             }
         });
@@ -136,11 +135,19 @@ public class RecipeDetails extends AppCompatActivity {
 
         commentAdapter.setOnCommentDeleteListener(new CommentAdapter.OnCommentDeleteListener() {
             @Override
-            public void onCommentDelete(int id) {
-                List<Recipe> newCommentList = new ArrayList<>();
-                RecipeDetails.DeleteTask deleteTask = new RecipeDetails.DeleteTask(RecipeDetails.this);
-                deleteTask.execute(String.valueOf(id));
-                System.out.println(newCommentList);
+            public void onCommentDelete(int idCom, int usId) {
+                System.out.println(id);
+                System.out.println(rank);
+                System.out.println(usId);
+                if (Objects.isNull(rank)){
+                    Toast.makeText(RecipeDetails.this, "Nie jesteś zalogowany", Toast.LENGTH_SHORT).show();
+                } else if (id != usId || rank < 1){
+                    Toast.makeText(RecipeDetails.this, "Nie możesz usunąć nieswojego komentarza", Toast.LENGTH_SHORT).show();
+                } else {
+                    commentsList = new ArrayList<>();
+                    RecipeDetails.DeleteTask deleteTask = new RecipeDetails.DeleteTask();
+                    deleteTask.execute(String.valueOf(idCom), String.valueOf(recipeComment.id), commentsList);
+                }
             }
         });
     }
@@ -188,19 +195,15 @@ public class RecipeDetails extends AppCompatActivity {
         stepsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private class CommentTask extends AsyncTask<String, Void, Boolean> {
-        private final Context context;
-
-        public CommentTask(Context context) {
-            this.context = context;
-        }
+    private class CommentTask extends AsyncTask<Object, List<Comments>, List<Comments>> {
 
         @Override
-        protected Boolean doInBackground(String... params) {
-            int rate = Integer.parseInt(params[0]);
-            int recipeId = Integer.parseInt(params[1]);
-            String msg = params[2];
-            int userId = Integer.parseInt(params[3]);
+        protected List<Comments> doInBackground(Object... params) {
+            int rate = Integer.parseInt(params[0].toString());
+            int recipeId = Integer.parseInt(params[1].toString());
+            String msg = params[2].toString();
+            int userId = Integer.parseInt(params[3].toString());
+            List<Comments> commentsList = (List<Comments>) params[4];
 
             String url = "http://10.0.2.2:5000/addUserComm";
             String jsonInputString = "{\"user_id\": \"" + userId + "\", \"rate\": \"" + rate + "\", \"text\": \"" + msg + "\", \"recipe_id\": \"" + recipeId + "\"}";
@@ -217,38 +220,58 @@ public class RecipeDetails extends AppCompatActivity {
                 outputStream.flush();
 
                 int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String line;
+                    StringBuilder response = new StringBuilder();
+
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    reader.close();
+
+                    JSONObject responseJson = new JSONObject(response.toString());
+                    JSONArray commentsArray = responseJson.getJSONArray("comments");
+                    for (int i = 0; i < commentsArray.length(); i++) {
+                        JSONObject commentJson = commentsArray.getJSONObject(i);
+                        Comments comment = new Comments();
+
+                        comment.setText(commentJson.getString("Text"));
+                        comment.setRate(commentJson.getInt("Rate"));
+                        comment.setId(commentJson.getInt("Id"));
+                        comment.setLogin(commentJson.getString("login"));
+                        comment.setUsId(commentJson.getInt("userId"));
+                        comment.setRecipeId(commentJson.getInt("recipeId"));
+                        commentsList.add(comment);
+                    }
+                }
                 connection.disconnect();
 
-                return responseCode == HttpURLConnection.HTTP_OK;
-            } catch (IOException e) {
+
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
-                return false;
+                return null;
             }
+            return commentsList;
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
-            if (result) {
-                Toast.makeText(RecipeDetails.this, "Udało się dodać komentarz", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(RecipeDetails.this, "Musisz się zalogować, aby dodać komentarz", Toast.LENGTH_SHORT).show();
-            }
+        protected void onPostExecute(List<Comments> commentsList) {
+            super.onPostExecute(commentsList);
+            Toast.makeText(RecipeDetails.this, "Udało się dodać komentarz", Toast.LENGTH_SHORT).show();
+            ((CommentAdapter) comRecyclerView.getAdapter()).updateComments(commentsList);
         }
     }
 
-    private class DeleteTask extends AsyncTask<String, Void, Boolean> {
-        private final Context context;
-
-        public DeleteTask(Context context) {
-            this.context = context;
-        }
-
+    private class DeleteTask extends AsyncTask<Object, List<Comments>, List<Comments>> {
         @Override
-        protected Boolean doInBackground(String... params) {
-            int id = Integer.parseInt(params[0]);
+        protected List<Comments> doInBackground(Object... params) {
+            int id = Integer.parseInt(params[0].toString());
+            int recipeId = Integer.parseInt(params[1].toString());
+            List<Comments> commentsList = (List<Comments>) params[2];
 
             String url = "http://10.0.2.2:5000/delUserComm";
-            String jsonInputString = "{\"comment_id\": \"" + id + "\"}";
+            String jsonInputString = "{\"comment_id\": \"" + id + "\", \"recipe_id\": \"" + recipeId +"\"}";
 
             try {
                 URL registerUrl = new URL(url);
@@ -262,22 +285,46 @@ public class RecipeDetails extends AppCompatActivity {
                 outputStream.flush();
 
                 int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String line;
+                    StringBuilder response = new StringBuilder();
+
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    reader.close();
+
+                    JSONObject responseJson = new JSONObject(response.toString());
+                    JSONArray commentsArray = responseJson.getJSONArray("comments");
+                    for (int i = 0; i < commentsArray.length(); i++) {
+                        JSONObject commentJson = commentsArray.getJSONObject(i);
+                        Comments comment = new Comments();
+
+                        comment.setText(commentJson.getString("Text"));
+                        comment.setRate(commentJson.getInt("Rate"));
+                        comment.setId(commentJson.getInt("Id"));
+                        comment.setLogin(commentJson.getString("login"));
+                        comment.setUsId(commentJson.getInt("userId"));
+                        comment.setRecipeId(commentJson.getInt("recipeId"));
+                        commentsList.add(comment);
+                    }
+                }
                 connection.disconnect();
 
-                return responseCode == HttpURLConnection.HTTP_OK;
-            } catch (IOException e) {
+
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
-                return false;
+                return null;
             }
+            return commentsList;
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
-            if (result) {
-                Toast.makeText(RecipeDetails.this, "Udało się usunąć komentarz", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(RecipeDetails.this, "Błąd podczas usuwania komentarza", Toast.LENGTH_SHORT).show();
-            }
+        protected void onPostExecute(List<Comments> commentsList) {
+            super.onPostExecute(commentsList);
+            //commentAdapter = new CommentAdapter(commentsList);
+            ((CommentAdapter) comRecyclerView.getAdapter()).updateComments(commentsList);
         }
     }
 }
