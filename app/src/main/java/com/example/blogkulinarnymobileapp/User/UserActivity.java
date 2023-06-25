@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.blogkulinarnymobileapp.Admin.AdminActivity;
 import com.example.blogkulinarnymobileapp.Admin.ManageUsersActivity;
@@ -18,6 +21,8 @@ import com.example.blogkulinarnymobileapp.SessionManagement.SessionManagement;
 import java.util.ArrayList;
 import java.util.List;
 
+import Home.HomeActivity;
+
 public class UserActivity extends AppCompatActivity {
 
     private SessionManagement sessionManagement;
@@ -25,6 +30,7 @@ public class UserActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     private TextView userHeaderTextView;
+    private Button logoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,8 @@ public class UserActivity extends AppCompatActivity {
         userHeaderTextView.setTextColor(getResources().getColor(android.R.color.white)); // Aktualizacja koloru tekstu
 
         recyclerView = findViewById(R.id.recyclerView);
+
+        logoutButton = findViewById(R.id.logoutButton);
 
         sessionManagement = SessionManagement.getInstance(UserActivity.this);
         rank = sessionManagement.getSession();
@@ -62,6 +70,17 @@ public class UserActivity extends AppCompatActivity {
                         startActivity(uzytkownicyIntent);
                         break;
                 }
+            }
+        });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(UserActivity.this, "Zostałeś wylogowany pomyślnie!", Toast.LENGTH_SHORT).show();
+                sessionManagement.removeSession();
+                Intent homeIntent = new Intent(UserActivity.this, HomeActivity.class);
+                startActivity(homeIntent);
+                finish();
             }
         });
 

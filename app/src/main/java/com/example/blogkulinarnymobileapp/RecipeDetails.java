@@ -231,7 +231,7 @@ public class RecipeDetails extends AppCompatActivity {
             if (result) {
                 Toast.makeText(RecipeDetails.this, "Udało się dodać komentarz", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(RecipeDetails.this, "Błąd podczas dodawania komentarza", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecipeDetails.this, "Musisz się zalogować, aby dodać komentarz", Toast.LENGTH_SHORT).show();
             }
         }
     }

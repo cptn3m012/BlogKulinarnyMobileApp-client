@@ -6,15 +6,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.blogkulinarnymobileapp.R;
 import com.example.blogkulinarnymobileapp.Adapters.TileAdapter;
 import com.example.blogkulinarnymobileapp.Adapters.TileData;
+import com.example.blogkulinarnymobileapp.RecipeDetails;
 import com.example.blogkulinarnymobileapp.SessionManagement.SessionManagement;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import Home.HomeActivity;
 
 public class AdminActivity extends AppCompatActivity {
 
@@ -23,6 +29,7 @@ public class AdminActivity extends AppCompatActivity {
     private RecyclerView AdminRecyclerView;
     private RecyclerView UserRecyclerView;
     private TextView adminHeaderTextView;
+    private Button logoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +41,8 @@ public class AdminActivity extends AppCompatActivity {
 
         AdminRecyclerView = findViewById(R.id.AdminRecyclerView);
         UserRecyclerView = findViewById(R.id.UserRecyclerView);
+
+        logoutButton = findViewById(R.id.logoutButton);
 
         sessionManagement = SessionManagement.getInstance(AdminActivity.this);
         rank = sessionManagement.getSession();
@@ -92,6 +101,17 @@ public class AdminActivity extends AppCompatActivity {
                         //startActivity(uzytkownicyIntent);
                         break;
                 }
+            }
+        });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AdminActivity.this, "Zostałeś wylogowany pomyślnie!", Toast.LENGTH_SHORT).show();
+                sessionManagement.removeSession();
+                Intent homeIntent = new Intent(AdminActivity.this, HomeActivity.class);
+                startActivity(homeIntent);
+                finish();
             }
         });
 
