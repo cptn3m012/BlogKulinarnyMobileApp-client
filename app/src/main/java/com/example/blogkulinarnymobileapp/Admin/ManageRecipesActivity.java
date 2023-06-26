@@ -106,7 +106,7 @@ public class ManageRecipesActivity extends AppCompatActivity {
                         onCommentAdded(comm);
                         dialog.dismiss();
                         Toast.makeText(ManageRecipesActivity.this, "Pomyślnie " +
-                                "dodano komentarz", Toast.LENGTH_SHORT).show();
+                          "dodano komentarz", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -195,13 +195,10 @@ public class ManageRecipesActivity extends AppCompatActivity {
                             step.setNoOfList(stepJson.getInt("noOfList"));
                             stepList.add(step);
                         }
-                        if(recipe.isAccepted==true){
                             recipe.setRecipeStringCategories(categoryList);
                             recipe.setStepsList(stepList);
                             recipe.setCommentsList(commentList);
                             recipeList.add(recipe);
-                        }
-
                     }
                 }
                 connection.disconnect();

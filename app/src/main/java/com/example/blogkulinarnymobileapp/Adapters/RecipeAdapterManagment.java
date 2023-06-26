@@ -91,6 +91,9 @@ public class RecipeAdapterManagment extends RecyclerView.Adapter<RecipeAdapterMa
 
         if(recipe.isAccepted != true){
             holder.lockBtn.setText("ODBLOKUJ");
+        }else {
+            // Kategoria jest zablokowana
+            holder.lockBtn.setText("ZABLOKUJ");
         }
 
         new ImageLoaderTask(holder.imageView, recipe.getImageURL()).execute(recipe.getImageURL());
