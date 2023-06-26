@@ -66,7 +66,7 @@ public class UserActivity extends AppCompatActivity {
                         startActivity(editProfile);
                         break;
                     case 1:
-                        Intent uzytkownicyIntent = new Intent(UserActivity.this, ManageUsersActivity.class);
+                        Intent uzytkownicyIntent = new Intent(UserActivity.this, ShowUserRecipes.class);
                         startActivity(uzytkownicyIntent);
                         break;
                 }

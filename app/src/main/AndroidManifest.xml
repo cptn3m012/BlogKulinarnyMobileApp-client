@@ -15,6 +15,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".User.ShowUserRecipes"
+            android:exported="false" />
+        <activity
             android:name=".User.EditDataActivity"
             android:exported="false" />
         <activity
