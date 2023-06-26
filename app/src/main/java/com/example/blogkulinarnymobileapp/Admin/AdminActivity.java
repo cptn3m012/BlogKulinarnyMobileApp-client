@@ -16,6 +16,8 @@ import com.example.blogkulinarnymobileapp.Adapters.TileAdapter;
 import com.example.blogkulinarnymobileapp.Adapters.TileData;
 import com.example.blogkulinarnymobileapp.RecipeDetails;
 import com.example.blogkulinarnymobileapp.SessionManagement.SessionManagement;
+import com.example.blogkulinarnymobileapp.User.EditUserActivity;
+import com.example.blogkulinarnymobileapp.User.ShowUserRecipes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,12 +95,12 @@ public class AdminActivity extends AppCompatActivity {
 
                 switch (position) {
                     case 0:
-                        //Intent przepisyIntent = new Intent(AdminActivity.this, ManageRecipesActivity.class);
-                        //startActivity(przepisyIntent);
+                        Intent uzytkownicyIntent = new Intent(AdminActivity.this, EditUserActivity.class);
+                        startActivity(uzytkownicyIntent);
                         break;
                     case 1:
-                        //Intent uzytkownicyIntent = new Intent(AdminActivity.this, ManageUsersActivity.class);
-                        //startActivity(uzytkownicyIntent);
+                        Intent przepisyIntent = new Intent(AdminActivity.this, ShowUserRecipes.class);
+                        startActivity(przepisyIntent);
                         break;
                 }
             }

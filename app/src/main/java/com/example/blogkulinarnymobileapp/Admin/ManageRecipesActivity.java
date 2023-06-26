@@ -162,6 +162,7 @@ public class ManageRecipesActivity extends AppCompatActivity {
                         recipe.setAvgTime(recipeJson.getInt("avgTime"));
                         recipe.setPortions(recipeJson.getInt("portions"));
                         recipe.setUserId(recipeJson.getInt("userId"));
+                        recipe.setAuthor(recipeJson.getString("u.login"));
 
                         JSONArray categoryArray = recipeJson.getJSONArray("categories");
                         List<String> categoryList = new ArrayList<>();
@@ -174,16 +175,13 @@ public class ManageRecipesActivity extends AppCompatActivity {
                         List<Comments> commentList = new ArrayList<>();
                         for (int k = 0; k < commentsArray.length(); k++) {
                             JSONObject commentJson = commentsArray.getJSONObject(k);
-                                Comments comment = new Comments();
-                                comment.setText(commentJson.getString("text"));
-                                comment.setId(commentJson.getInt("comment_id"));
-                                comment.setRate(commentJson.getInt("rate"));
-                                comment.setLogin(commentJson.getString("login"));
-                                comment.setUsId(commentJson.getInt("usId"));
-                                comment.setIsBlocked(commentJson.getInt("isBlocked"));
-                                if(comment.getIsBlocked() == 1){
-                                    commentList.add(comment);
-                                }
+                            Comments comment = new Comments();
+                            comment.setText(commentJson.getString("text"));
+                            comment.setRate(commentJson.getInt("rate"));
+                            comment.setId(commentJson.getInt("comment_id"));
+                            comment.setLogin(commentJson.getString("login"));
+                            comment.setUsId(commentJson.getInt("usId"));
+                            commentList.add(comment);
                         }
 
                         // Parsowanie kroków (stepList)
@@ -197,10 +195,13 @@ public class ManageRecipesActivity extends AppCompatActivity {
                             step.setNoOfList(stepJson.getInt("noOfList"));
                             stepList.add(step);
                         }
+                        if(recipe.isAccepted==true){
                             recipe.setRecipeStringCategories(categoryList);
                             recipe.setStepsList(stepList);
                             recipe.setCommentsList(commentList);
                             recipeList.add(recipe);
+                        }
+
                     }
                 }
                 connection.disconnect();
@@ -210,8 +211,8 @@ public class ManageRecipesActivity extends AppCompatActivity {
 
             }
             return recipeList;
-
         }
+
         @Override
         protected void onPostExecute(List<Recipe> recipeList) {
             super.onPostExecute(recipeList);

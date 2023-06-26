@@ -190,8 +190,8 @@ public class RecipeListActivity extends AppCompatActivity {
 
             }
             return recipeList;
-
         }
+
         @Override
         protected void onPostExecute(List<Recipe> recipeList) {
             super.onPostExecute(recipeList);
