@@ -187,7 +187,6 @@ public class RecipeListActivity extends AppCompatActivity {
 
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
-
             }
             return recipeList;
         }

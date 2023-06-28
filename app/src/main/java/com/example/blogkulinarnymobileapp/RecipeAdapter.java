@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.AsyncTask;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -200,13 +201,20 @@ class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
     @Override
     protected Bitmap doInBackground(String... params) {
         try {
-            return Picasso.get()
-                    .load(urlImage)
-                    .get();
+            if(isValidUrl(urlImage) == true){
+                return Picasso.get()
+                        .load(urlImage)
+                        .get();
+            }else
+                return null;
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean isValidUrl(String url) {
+        return Patterns.WEB_URL.matcher(url).matches();
     }
 
     @Override

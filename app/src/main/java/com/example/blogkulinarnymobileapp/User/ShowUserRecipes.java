@@ -218,6 +218,4 @@ public class ShowUserRecipes extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
     }
-
-
 }

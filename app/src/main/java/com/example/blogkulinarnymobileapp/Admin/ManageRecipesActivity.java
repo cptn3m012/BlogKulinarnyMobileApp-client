@@ -31,6 +31,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -176,14 +177,16 @@ public class ManageRecipesActivity extends AppCompatActivity {
                         for (int k = 0; k < commentsArray.length(); k++) {
                             JSONObject commentJson = commentsArray.getJSONObject(k);
                             Comments comment = new Comments();
-                            comment.setText(commentJson.getString("text"));
-                            comment.setRate(commentJson.getInt("rate"));
-                            comment.setId(commentJson.getInt("comment_id"));
-                            comment.setLogin(commentJson.getString("login"));
-                            comment.setUsId(commentJson.getInt("usId"));
-                            commentList.add(comment);
+                            comment.setIsBlocked(commentJson.getInt("isBlocked"));
+                            if(comment.getIsBlocked() == 1){
+                                comment.setText(commentJson.getString("text"));
+                                comment.setRate(commentJson.getInt("rate"));
+                                comment.setId(commentJson.getInt("comment_id"));
+                                comment.setLogin(commentJson.getString("login"));
+                                comment.setUsId(commentJson.getInt("usId"));
+                                commentList.add(comment);
+                            }
                         }
-
                         // Parsowanie kroków (stepList)
                         JSONArray stepsArray = recipeJson.getJSONArray("steps");
                         List<RecipeElements> stepList = new ArrayList<>();
@@ -246,13 +249,11 @@ public class ManageRecipesActivity extends AppCompatActivity {
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     Log.d("Update", "User state updated successfully");
                 }
-
                 connection.disconnect();
 
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-
             return null;
         }
     }
@@ -331,8 +332,8 @@ public class ManageRecipesActivity extends AppCompatActivity {
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     Log.d("AddComment", "Comment added successfully");
                 }
-
                 connection.disconnect();
+
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }

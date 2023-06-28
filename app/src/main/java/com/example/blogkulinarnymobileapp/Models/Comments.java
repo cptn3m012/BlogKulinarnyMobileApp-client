@@ -13,6 +13,7 @@ public class Comments implements Parcelable {
     public int isBlocked;
 
     public Comments() {
+
     }
 
     public Comments(int id, String text, int rate, int recipeId, int usId, int isBlocked, String login) {
