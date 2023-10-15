@@ -1,7 +1,7 @@
 # BlogKulinarnyMobileApp Client
 
 ## Overview
-This project is a mobile application composed of a client application written in Java and a server responsible for transmitting records from a database, developed in Python([BlogKulinarnyMobileApp-server](https://github.com/cptn3m012/BlogKulinarnyMobileApp-server)). The application is designed to cater to three main user roles: Administrator, Registered User, and Guest (unregistered user). It primarily focuses on browsing and managing culinary recipes, offering a user-friendly interface packed with a range of functionalities. The mobile application was developed based on the website, whose source code is available at ([BlogKulinary](https://github.com/Desi451/BlogKulinarny)). Both the website and the mobile app use the same database.
+This project is a mobile application composed of a client application written in Java and a server responsible for transmitting records from a database, developed in Python, which can be found at [BlogKulinaryMobileApp-server](https://github.com/cptn3m012/BlogKulinarnyMobileApp-server). The application was designed with three main user roles in mind:: Administrator, Registered User, and Guest (unregistered user). It primarily focuses on browsing and managing culinary recipes, offering a user-friendly interface packed with a range of functionalities. The mobile application was developed based on the website, whose source code is available at [BlogKulinary](https://github.com/Desi451/BlogKulinarny). Both the website and the mobile app use the same database.
 
 ## Features
 
